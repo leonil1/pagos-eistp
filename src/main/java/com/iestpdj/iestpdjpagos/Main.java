@@ -9,9 +9,10 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/vistasFX/login.fxml"));
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/css/Style.css").toExternalForm());
         stage.setTitle("Sistema de Login");
         stage.setScene(scene);
         stage.setResizable(false);

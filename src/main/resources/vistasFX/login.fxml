@@ -4,7 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="497.0" prefWidth="446.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iestpdj.iestpdjpagos.controller.LoginController">
+<AnchorPane prefHeight="497.0" prefWidth="446.0" xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iestpdj.iestpdjpagos.controller.LoginController">
    <children>
       <Label layoutX="119.0" layoutY="169.0" prefHeight="42.0" prefWidth="211.0" text="Login iestp-dj">
          <font>
@@ -21,7 +22,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Button fx:id="btnLogin" layoutX="99.0" layoutY="361.0" mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="35.0" prefWidth="263.0" text="Inisar Sesion" />
+      <Button fx:id="btnLogin" layoutX="99.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="35.0" prefWidth="263.0" text="Inisar Sesion" />
       <Label layoutX="207.0" layoutY="80.0" text="logo" />
       <PasswordField fx:id="textContrasenia" layoutX="103.0" layoutY="309.0" prefHeight="42.0" prefWidth="256.0" />
       <TextField fx:id="textUsuario" layoutX="106.0" layoutY="241.0" prefHeight="42.0" prefWidth="249.0">

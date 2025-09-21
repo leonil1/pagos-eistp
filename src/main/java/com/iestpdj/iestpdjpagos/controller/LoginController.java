@@ -1,20 +1,27 @@
 package com.iestpdj.iestpdjpagos.controller;
+import com.iestpdj.iestpdjpagos.model.Usuario;
 import com.iestpdj.iestpdjpagos.service.UsuarioService;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import javafx.scene.Node;
+
+import java.io.IOException;
 
 public class LoginController {
 
     @FXML
     private Button btnLogin;
     @FXML
-    private TextField txtUsername;
+    private TextField textUsuario;
     @FXML
-    private PasswordField txtPassword;
+    private PasswordField textContrasenia;
 
     private UsuarioService usuarioService;
 
@@ -23,13 +30,36 @@ public class LoginController {
     }
 
     @FXML
-    private void  loginButtonAction(ActionEvent event) {
+    private void  handleLogin(ActionEvent event) {
 
-        String usuario = txtUsername.getText();
-        String password = txtPassword.getText();
+        String username = textUsuario.getText();
+        String password = textContrasenia.getText();
 
-        Stage stage = (Stage) btnLogin.getScene().getWindow();
-        System.out.println("hola" + stage);
+        if (usuarioService.iniciarSesion(username, password)){
+
+            //obtener el informacion del usuario
+            Usuario usuario = usuarioService.obtenerUsuario(username);
+            try{
+                //carga el dashboard
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistasFX/dashboard.fxml"));
+                Parent root = loader.load();
+
+                DashboardController dashboardController = loader.getController();
+                dashboardController.setUsuario(usuario);
+
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle("Dashboard- " + usuario.getUsername());
+                stage.show();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.println("redeciales ivalidos");
+            textContrasenia.clear();
+        }
     }
 
 

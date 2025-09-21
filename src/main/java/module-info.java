@@ -6,6 +6,7 @@ module com.iestpdj.iestpdjpagos {
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
+    requires java.desktop;
 
     opens com.iestpdj.iestpdjpagos to javafx.fxml;
     exports com.iestpdj.iestpdjpagos;
