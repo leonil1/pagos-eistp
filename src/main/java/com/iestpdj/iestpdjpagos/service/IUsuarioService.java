@@ -10,4 +10,5 @@ public interface IUsuarioService {
     boolean registrarUsuario(String username, String password, String email, String rol);
     boolean validarCredenciales(String username, String password);
     List<Usuario> listarUsuarios();
+    Usuario obtenerporDni(String dni);
 }

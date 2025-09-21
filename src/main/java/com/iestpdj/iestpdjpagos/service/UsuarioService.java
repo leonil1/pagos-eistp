@@ -55,4 +55,9 @@ public class UsuarioService implements IUsuarioService {
     public List<Usuario> listarUsuarios() {
         return List.of();
     }
+
+    @Override
+    public Usuario obtenerporDni(String dni) {
+        return null;
+    }
 }

@@ -16,6 +16,7 @@ import java.io.IOException;
 
 public class LoginController {
 
+    // aqui se llama los componentes de la vista GUI
     @FXML
     private Button btnLogin;
     @FXML
@@ -23,12 +24,15 @@ public class LoginController {
     @FXML
     private PasswordField textContrasenia;
 
+    //Injection de  del services
     private UsuarioService usuarioService;
 
+    // nicializar la vista
     public void initialize() {
         usuarioService = new UsuarioService();
     }
 
+    // METHOD: INICAI EL METHOS DE LOGION
     @FXML
     private void  handleLogin(ActionEvent event) {
 
