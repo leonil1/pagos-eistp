@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 
 import java.io.IOException;
 
@@ -53,6 +54,8 @@ public class LoginController {
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
+
+                scene.getStylesheets().add(getClass().getResource("/css/Style.css").toExternalForm());
                 stage.setScene(scene);
                 stage.setTitle("Dashboard- " + usuario.getUsername());
                 stage.show();
@@ -61,7 +64,10 @@ public class LoginController {
                 throw new RuntimeException(e);
             }
         } else {
-            System.out.println("redeciales ivalidos");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Credenciales inválidas. Intenta de nuevo.");
+            alert.showAndWait();
             textContrasenia.clear();
         }
     }

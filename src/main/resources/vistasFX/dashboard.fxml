@@ -2,22 +2,42 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iestpdj.iestpdjpagos.controller.DashboardController">
-   <children>
-      <SplitPane layoutX="14.0" layoutY="4.0" prefHeight="891.0" prefWidth="248.0" />
-      <Pane layoutX="264.0" layoutY="7.0" prefHeight="51.0" prefWidth="925.0">
-         <children>
-            <Label fx:id="textUsuario" layoutX="614.0" layoutY="17.0" prefHeight="20.0" prefWidth="297.0" text="bienevenido">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="textBienvenido" layoutX="337.0" layoutY="17.0" prefHeight="22.0" prefWidth="240.0" text="informacion de usuario">
-               <font>
-                  <Font size="16.0" />
-               </font></Label>
-         </children></Pane>
-   </children>
-</Pane>
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.iestpdj.iestpdjpagos.controller.DashboardController"
+            prefWidth="1038.0" prefHeight="898.0"
+            styleClass="root">
+
+    <children>
+        <SplitPane fx:id="sideSplitPane"
+                   dividerPositions="0.25"
+                   AnchorPane.topAnchor="0.0"
+                   AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0">
+
+            <items>
+                <!-- Menú lateral -->
+                <VBox fx:id="sideMenu" spacing="10" styleClass="side-menu">
+                    <children>
+                        <Label text="MENÚ" styleClass="menu-title" />
+                        <Button fx:id="btDashboard" text="👤 Dashboard" styleClass="side-button" />
+                        <Button fx:id="btnUsuario" text="👤 Usuario" styleClass="side-button" />
+                        <Button fx:id="btnEstudiantes" text="🎓 Estudiantes" styleClass="side-button" />
+                        <Button fx:id="btnPagos" text="💰 Pagos" styleClass="side-button" />
+                        <Button fx:id="btnReportes" text="📄 Reportes" styleClass="side-button" />
+                    </children>
+                </VBox>
+
+                <!-- Contenido principal -->
+                <VBox fx:id="mainContent" styleClass="main-content" spacing="10" alignment="TOP_LEFT">
+                    <children>
+                        <Label fx:id="textBienvenido" text="Información de usuario" styleClass="label-titulo" />
+                        <Label fx:id="textUsuario" text="Bienvenido" styleClass="label-subtitulo" />
+                    </children>
+                </VBox>
+            </items>
+        </SplitPane>
+    </children>
+</AnchorPane>

@@ -1,0 +1,47 @@
+/* Fondo blanco general */
+.root {
+    -fx-background-color: #ffffff;
+    -fx-font-weight: bold; /* Letras en negrita */
+    -fx-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    -fx-font-size: 14px;
+}
+
+/* Estilo botones del menú lateral */
+.button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #000000; /* texto negro */
+    -fx-font-weight: bold;
+    -fx-padding: 8 15 8 15;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+/* Al pasar el mouse por encima (hover) */
+.button:hover {
+    -fx-background-color: #0b3d91; /* azul oscuro */
+    -fx-text-fill: #ffffff; /* texto blanco */
+}
+
+/* Botones activos */
+.button:focused, .button:armed {
+    -fx-background-color: #0b3d91;
+    -fx-text-fill: white;
+}
+
+/* Labels con texto en negrita y color oscuro */
+.label {
+    -fx-text-fill: #222222;
+    -fx-font-weight: bold;
+}
+
+/* Paneles o contenedores con padding y borde */
+.pane, .vbox {
+    -fx-padding: 15;
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}

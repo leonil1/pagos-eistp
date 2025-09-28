@@ -9,6 +9,7 @@ public class DashboardController {
     @FXML private Label textUsuario;
     @FXML private Label textBienvenido;
 
+
     private Usuario usuario;
 
     public void setUsuario(Usuario usuario){

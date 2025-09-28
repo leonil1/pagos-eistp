@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.iestpdj.iestpdjpagos.controller.DashboardController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
+
+            <!-- Título -->
+            <Label text="Gestión de Usuarios" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #000000;" />
+
+            <!-- Formulario -->
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="30"/>
+                    <ColumnConstraints percentWidth="70"/>
+                </columnConstraints>
+
+                <!-- Nombre de usuario -->
+                <Label text="Nombre de Usuario:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtNombreUsuario" promptText="Ingrese nombre de usuario" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <!-- Contraseña -->
+                <Label text="Contraseña:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <PasswordField fx:id="txtPassword" promptText="Ingrese contraseña" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <!-- Confirmar contraseña -->
+                <Label text="Confirmar Contraseña:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <PasswordField fx:id="txtConfirmPassword" promptText="Confirme contraseña" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <!-- Rol -->
+                <Label text="Rol:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="comboRol" promptText="Seleccione rol" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <!-- Estado -->
+                <Label text="Estado:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <ChoiceBox fx:id="choiceEstado" GridPane.rowIndex="4" GridPane.columnIndex="1">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Activo"/>
+                            <String fx:value="Inactivo"/>
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+            </GridPane>
+
+            <!-- Botones -->
+            <HBox spacing="15" alignment="CENTER_RIGHT">
+                <Button fx:id="btnGuardar" text="Guardar" styleClass="btn-guardar"/>
+                <Button fx:id="btnCambiarUsuario" text="Cambiar Usuario" styleClass="btn-cambiar"/>
+                <Button fx:id="btnCerrarSesion" text="Cerrar Sesión" styleClass="btn-cerrar"/>
+                <Button fx:id="btnCancelar" text="Cancelar" styleClass="btn-cancelar"/>
+            </HBox>
+
+            <!-- Mensaje estado -->
+            <Label fx:id="lblMensaje" style="-fx-text-fill: green; -fx-font-weight: bold;"/>
+
+        </VBox>
+    </children>
+</AnchorPane>

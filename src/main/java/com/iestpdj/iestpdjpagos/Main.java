@@ -12,10 +12,11 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/vistasFX/login.fxml"));
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/css/Style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/css/usuario.css").toExternalForm());
         stage.setTitle("Sistema de Login");
+        stage.setResizable(true);
         stage.setScene(scene);
-        stage.setResizable(false);
+
         stage.show();
     }
 

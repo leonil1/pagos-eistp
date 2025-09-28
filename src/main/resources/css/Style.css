@@ -1,3 +1,64 @@
-.btnLogin {
-    background-color: red;
+/* Fondo general de la app */
+.root {
+    -fx-background-color: #ffffff; /* blanco */
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-text-fill: #000000; /* texto negro */
+}
+
+/* Panel lateral */
+.side-menu {
+    -fx-background-color: #f5f5f5;
+    -fx-padding: 20;
+}
+
+/* Título del menú */
+.menu-title {
+    -fx-text-fill: #000000;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10 0;
+}
+
+/* Botones del menú lateral */
+.side-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #000000;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 15;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+/* Efecto hover del botón */
+.side-button:hover {
+    -fx-background-color: #003366; /* azul oscuro */
+    -fx-text-fill: #ffffff;
+}
+
+/* Botón seleccionado (opcional) */
+.side-button:focused {
+    -fx-background-color: #003366;
+    -fx-text-fill: #ffffff;
+}
+
+/* Contenido principal */
+.main-content {
+    -fx-background-color: #ffffff;
+    -fx-padding: 30;
+}
+
+/* Título en el contenido */
+.label-titulo {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000000;
+}
+
+/* Subtítulo */
+.label-subtitulo {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000000;
 }
