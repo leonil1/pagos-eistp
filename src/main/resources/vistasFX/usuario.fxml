@@ -66,6 +66,7 @@
 
             <!-- Mensaje estado -->
             <Label fx:id="lblMensaje" style="-fx-text-fill: green; -fx-font-weight: bold;"/>
+            <Label fx:id="lblmensajeee" style="-fx-text-fill: green; -fx-font-weight: bold;"/>
 
         </VBox>
     </children>
