@@ -46,17 +46,17 @@ public class LoginController {
             Usuario usuario = usuarioService.obtenerUsuario(username);
             try{
                 //carga el dashboard
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistasFX/dashboard.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistasFX/dashboard1.fxml"));
                 Parent root = loader.load();
 
-                DashboardController dashboardController = loader.getController();
-                dashboardController.setUsuario(usuario);
+                //DashboardController dashboardController = loader.getController();
+                //dashboardController.setUsuario(usuario);
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
 
                 scene.getStylesheets().add(getClass().getResource("/css/Style.css").toExternalForm());
-                stage.setScene(scene);
+                stage.  setScene(scene);
                 stage.setTitle("Dashboard- " + usuario.getUsername());
                 stage.show();
 

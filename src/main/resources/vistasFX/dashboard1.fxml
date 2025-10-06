@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.iestpdj.iestpdjpagos.controller.DashbordController1"
+>
+    <left>
+        <VBox spacing="15" style="-fx-background-color: #2c3e50; -fx-padding: 20;">
+
+            <Label text="Menu" style="-fx-text-fill: white; -fx-font-weight: 18" />
+            <Button text="Estudinate" fx:id="btnEstudiante" style="-fx-pref-width: 150;" onAction="#mostrarEstudiante"  />
+            <Button text="Pago" fx:id="btnPagos" style="-fx-pref-width: 150;"  />
+        </VBox>
+    </left>
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-padding: 10;" />
+    </center>
+</BorderPane>

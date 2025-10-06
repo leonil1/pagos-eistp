@@ -20,15 +20,16 @@ public class AlumnoDAO implements IAlumnoDAO{
 
     @Override
     public boolean CreateAlumno(Alumno alumno) {
-        String sql = "INSERT INTO alumno (dni, nombres, apellidos, correo, telefono, activo) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO alumno (dni, nombre, apellido_paterno, apellido_materno, email, telefono, activo) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, alumno.getDni());
             pstmt.setString(2, alumno.getNombre());
-            pstmt.setString(3, alumno.getApellido());
-            pstmt.setString(4, alumno.getCorreo());
-            pstmt.setString(5, alumno.getTelefono());
-            pstmt.setBoolean(6, alumno.isActivo());
+            pstmt.setString(3, alumno.getApellido_paterno());
+            pstmt.setString(4, alumno.getApellido_materno());
+            pstmt.setString(5, alumno.getEmail());
+            pstmt.setString(6, alumno.getTelefono());
+            pstmt.setBoolean(7, alumno.isActivo());
 
             int filas = pstmt.executeUpdate();
             return filas > 0;
@@ -52,11 +53,12 @@ public class AlumnoDAO implements IAlumnoDAO{
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Alumno alumno = new Alumno();
-                alumno.setId(rs.getInt("id"));
+                alumno.setId(rs.getLong("id"));
                 alumno.setDni(rs.getString("dni"));
                 alumno.setNombre(rs.getString("nombres"));
-                alumno.setApellido(rs.getString("apellidos"));
-                alumno.setCorreo(rs.getString("correo"));
+                alumno.setApellido_paterno(rs.getString("apellido_paterno"));
+                alumno.setApellido_materno(rs.getString("apellido_materno"));
+                alumno.setEmail(rs.getString("correo"));
                 alumno.setTelefono(rs.getString("telefono"));
                 alumno.setActivo(rs.getBoolean("activo"));
                 lista.add(alumno);

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" hgap="8" vgap="8" padding="12"
+fx:controller="com.iestpdj.iestpdjpagos.controller.EstudianteFormController">
+    <Label  text="DNi" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <TextField fx:id="textDni" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+    <HBox spacing="8" alignment="CENTER_RIGHT" GridPane.rowIndex="7" GridPane.columnIndex="1">
+        <Button text="Guardar" />
+        <Button text="Cancelar" />
+    </HBox>
+</GridPane>
