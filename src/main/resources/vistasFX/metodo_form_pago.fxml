@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.iestpdj.iestpdjpagos.controller.MetodoPagoFormController"
+      spacing="20" alignment="CENTER"
+      style="-fx-background-color: #f4f6f8; -fx-padding: 25;">
+
+    <!-- Título -->
+    <Label text="Registro de Metodo Pago"
+           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+    <!-- Formulario -->
+    <GridPane hgap="10" vgap="12"
+              style="-fx-background-color: white;
+                     -fx-padding: 25;
+                     -fx-border-radius: 10;
+                     -fx-background-radius: 10;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);">
+
+        <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" minWidth="130"/>
+            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <Label text="Nombre:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="textNombre" promptText="Ingrese nombre completo"
+                   GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Descripcion:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="textDescripcion" promptText="Ingrese Descripcion"
+                   GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Activo:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+        <HBox spacing="10" alignment="CENTER_LEFT"
+              GridPane.rowIndex="7" GridPane.columnIndex="1">
+            <RadioButton fx:id="rbActivo" text="Sí" />
+            <RadioButton fx:id="rbInactivo" text="No" />
+        </HBox>
+
+    </GridPane>
+
+    <!-- Botones -->
+    <HBox alignment="CENTER_RIGHT" spacing="12">
+        <Button text="Cancelar"
+                onAction="#cancelar"
+                style="-fx-background-color: #e74c3c;
+                       -fx-text-fill: white;
+                       -fx-font-weight: bold;
+                       -fx-background-radius: 8;
+                       -fx-cursor: hand;
+                       -fx-padding: 8 20;"/>
+        <Button text="Guardar"
+                onAction="#guardar"
+                style="-fx-background-color: #2ecc71;
+                       -fx-text-fill: white;
+                       -fx-font-weight: bold;
+                       -fx-background-radius: 8;
+                       -fx-cursor: hand;
+                       -fx-padding: 8 20;"/>
+    </HBox>
+</VBox>

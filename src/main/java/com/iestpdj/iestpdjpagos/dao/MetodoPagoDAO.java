@@ -23,6 +23,7 @@ public class MetodoPagoDAO implements IMetodoPagoDAO{
     public boolean CreateMetodoPago(MetodoPago metodoPago) {
         String sql = "INSERT INTO metodo_pago (nombre, descripcion, activo) VALUES (?,?,?)";
         try(PreparedStatement ps = this.connection.prepareStatement(sql)) {
+
             ps.setString(1, metodoPago.getNombre());
             ps.setString(2, metodoPago.getDescripcion());
             ps.setBoolean(3, metodoPago.isActivo());
@@ -46,8 +47,9 @@ public class MetodoPagoDAO implements IMetodoPagoDAO{
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 MetodoPago metodoPago = new MetodoPago();
-                metodoPago.setIdMetodo(rs.getInt("id_metodo"));
-                metodoPago.setDescripcion(rs.getString("nombre"));
+                metodoPago.setId_metodo(rs.getLong("id_metodo"));
+                metodoPago.setNombre(rs.getString("nombre"));
+                metodoPago.setDescripcion(rs.getString("descripcion"));
                 metodoPago.setActivo(rs.getBoolean("activo"));
                 listarMetodoPagos.add(metodoPago);
             }

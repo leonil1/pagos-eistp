@@ -37,7 +37,7 @@ public class MetodoPagoService implements IMetodoPago{
 
     @Override
     public List<MetodoPago> listaMetodoPago() {
-        return List.of();
+        return iMetodoPagoDAO.listarMetodoPagos();
     }
 
     @Override
