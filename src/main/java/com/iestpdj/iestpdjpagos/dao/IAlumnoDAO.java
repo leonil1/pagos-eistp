@@ -10,5 +10,5 @@ public interface IAlumnoDAO {
     Alumno buscarAlumno(String dni);
     List<Alumno> obtenerTodosLosAlumnos();
     Boolean ActualizarAlumno(Alumno alumno);
-    Boolean EliminarAlumno(Alumno alumno);
+    Boolean EliminarAlumno(Long id);
 }

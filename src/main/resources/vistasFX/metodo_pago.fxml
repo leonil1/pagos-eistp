@@ -1,56 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/17.0.12"
-            fx:controller="com.iestpdj.iestpdjpagos.controller.EstudianteController"
-            style="-fx-background-color: #f5f6fa;">
-
+            fx:controller="com.iestpdj.iestpdjpagos.controller.MetodoPagoController"
+             style="-fx-background-color: #f5f6fa;">
     <VBox style="-fx-padding: 15; -fx-background-color: #ecf0f1; -fx-border-radius: 8; -fx-background-radius: 8;">
-
-        <!-- 🔸 Título y botones -->
         <HBox alignment="CENTER_LEFT" spacing="10">
             <Label text="Listado de Estudiantes"
                    style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="nuevoEstudiante" text="➕ Nuevo" onAction="#nuevoEstudiante"
+            <Button fx:id="nuevoEstudiante" text="➕ Nuevo"
                     style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button fx:id="btnEditar" text="✏️ Editar" onAction="#editarEstudiante"
+            <Button fx:id="btnEditar" text="✏️ Editar"
                     style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
             <Button fx:id="btnEliminar" text="🗑 Eliminar"
                     style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
             <Button fx:id="btnRefrescar" text="🔄 Refrescar"
                     style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
         </HBox>
-
-        <!-- 🔍 Campo de búsqueda -->
         <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10 0 10 0;">
             <Label text="Buscar:" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
             <TextField fx:id="txtBuscar" promptText="Ingrese nombre o DNI..."
                        style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-pref-width: 300;" />
-            <Button fx:id="btnBuscar" text="🔍 Buscar" onAction="#buscarEstudiante"
+            <Button fx:id="btnBuscar" text="🔍 Buscar"
                     style="-fx-background-color: #16a085; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
         </HBox>
 
-        <!-- 🔸 Tabla -->
-        <TableView fx:id="tableAlumnos" prefHeight="600"
+        <TableView fx:id="tablaMetodoPago" prefHeight="600"
                    style="-fx-background-color: white; -fx-border-radius: 8; -fx-background-radius: 8;">
             <columns>
                 <TableColumn fx:id="colId" prefWidth="60" text="ID" />
-                <TableColumn fx:id="colDni" prefWidth="100" text="DNI" />
-                <TableColumn fx:id="colNombre" prefWidth="160" text="Nombres" />
-                <TableColumn fx:id="colApellidoPaterno" prefWidth="160" text="Apellido Paterno" />
-                <TableColumn fx:id="colApellidoMaterno" prefWidth="160" text="Apellido Materno" />
-                <TableColumn fx:id="colDireccion" prefWidth="180" text="Dirección" />
-                <TableColumn fx:id="colEmail" prefWidth="180" text="Email" />
-                <TableColumn fx:id="colTelefono" prefWidth="120" text="Teléfono" />
-                <TableColumn fx:id="colActivo" prefWidth="100" text="Estado" />
-                <TableColumn fx:id="colFecha" prefWidth="180" text="Fecha Registro" />
+                <TableColumn fx:id="colNombre" prefWidth="160" text="Nombre" />
+                <TableColumn fx:id="colDescripcion" prefWidth="160" text="Descripcion" />
+                <TableColumn fx:id="colEstado" prefWidth="60" text="Estado" />
             </columns>
         </TableView>
-
     </VBox>
+
 </AnchorPane>

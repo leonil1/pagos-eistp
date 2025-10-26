@@ -55,7 +55,7 @@ public class LoginController {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
 
-                scene.getStylesheets().add(getClass().getResource("/css/Style.css").toExternalForm());
+                scene.getStylesheets().add(getClass().getResource("/css/dashboard.css").toExternalForm());
                 stage.  setScene(scene);
                 stage.setTitle("Dashboard- " + usuario.getUsername());
                 stage.show();

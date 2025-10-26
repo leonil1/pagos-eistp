@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.iestpdj.iestpdjpagos.controller.ConceptoPagoController"
+            prefWidth="900" prefHeight="600"
+            style="-fx-background-color: linear-gradient(to bottom right, #f4f6f9, #e9ecef);">
+
+    <VBox spacing="15" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
+
+        <!-- Título -->
+        <Label text="Gestión de Conceptos de Pago"
+               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+        <!-- Panel de botones -->
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Button fx:id="nuevoConceptoPago" text="Nuevo"
+                    style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;" />
+            <Button fx:id="btnEditar" text="Editar"
+                    style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;" />
+            <Button fx:id="btnEliminar" text="Eliminar"
+                    style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;" />
+            <Button fx:id="btnRefrescar" text="Refrescar"
+                    style="-fx-background-color: #17a2b8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <TextField fx:id="txtBuscar" promptText="Buscar concepto..."
+                       prefWidth="220" style="-fx-background-radius: 6;" />
+        </HBox>
+
+        <!-- Tabla principal -->
+        <TableView fx:id="tablaConceto"
+                   prefHeight="500.0"
+                   style="-fx-background-color: white; -fx-border-color: #ced4da; -fx-border-radius: 8; -fx-background-radius: 8;">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="70" />
+                <TableColumn fx:id="colNombre" text="Nombre" prefWidth="200" />
+                <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="320" />
+                <TableColumn fx:id="colPrecio" text="Precio (S/.)" prefWidth="130" />
+                <TableColumn fx:id="colEstado" text="Estado" prefWidth="120" />
+            </columns>
+        </TableView>
+    </VBox>
+</AnchorPane>

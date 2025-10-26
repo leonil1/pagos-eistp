@@ -37,6 +37,13 @@ CREATE TABLE concepto_pago(
       estado ENUM('ACTIVO','INACTIVO') DEFAULT 'ACTIVO'
 )
 
+CREATE TABLE metodo_pago (
+     id_metodo INT AUTO_INCREMENT PRIMARY KEY,
+     nombre VARCHAR(50) NOT NULL UNIQUE,     -- Ejemplo: EFECTIVO, TARJETA, TRANSFERENCIA
+     descripcion VARCHAR(100) NULL,
+     activo BOOLEAN DEFAULT TRUE
+);
+
 CREATE TABLE pagos
 (
     id_pago       INT AUTO_INCREMENT PRIMARY KEY,

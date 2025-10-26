@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.iestpdj.iestpdjpagos.controller.ConceptoPagoFormController"
+            prefWidth="450" prefHeight="420"
+            style="-fx-background-color: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+                   -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6;">
+
+    <VBox spacing="15" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="30"
+          AnchorPane.rightAnchor="30" AnchorPane.bottomAnchor="20">
+
+        <!-- Título -->
+        <Label text="Registrar Concepto de Pago"
+               fx:id="lblTitulo"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+               alignment="CENTER" />
+
+        <Separator />
+
+        <!-- Campo: Nombre -->
+        <VBox spacing="5">
+            <Label text="Nombre del Concepto:" style="-fx-font-weight: bold;" />
+            <TextField fx:id="txtNombre" promptText="Ejemplo: Matrícula"
+                       style="-fx-background-radius: 6;" />
+        </VBox>
+
+        <!-- Campo: Descripción -->
+        <VBox spacing="5">
+            <Label text="Descripción:" style="-fx-font-weight: bold;" />
+            <TextArea fx:id="txtDescripcion" promptText="Ejemplo: Pago por matrícula anual"
+                      prefRowCount="3" wrapText="true"
+                      style="-fx-background-radius: 6;" />
+        </VBox>
+
+        <!-- Campo: Precio -->
+        <VBox spacing="5">
+            <Label text="Precio (S/.):" style="-fx-font-weight: bold;" />
+            <TextField fx:id="txtPrecio" promptText="Ejemplo: 150.00"
+                       style="-fx-background-radius: 6;" />
+        </VBox>
+
+        <!-- Campo: Estado -->
+        <VBox spacing="5">
+            <Label text="Estado:" style="-fx-font-weight: bold;" />
+            <ComboBox fx:id="cbEstado" prefWidth="150">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="ACTIVO" />
+                        <String fx:value="INACTIVO" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </VBox>
+
+        <Separator />
+
+        <!-- Botones de acción -->
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button fx:id="btnGuardar" text="Guardar"
+                    style="-fx-background-color: #28a745; -fx-text-fill: white;
+                           -fx-font-weight: bold; -fx-background-radius: 6;" />
+            <Button fx:id="btnCancelar" text="Cancelar"
+                    style="-fx-background-color: #6c757d; -fx-text-fill: white;
+                           -fx-font-weight: bold; -fx-background-radius: 6;" />
+        </HBox>
+    </VBox>
+</AnchorPane>
