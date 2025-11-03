@@ -1,6 +1,6 @@
 package com.iestpdj.iestpdjpagos.dao;
 
-import com.iestpdj.iestpdjpagos.model.Alumno;
+import com.iestpdj.iestpdjpagos.model.Estudiante;
 import com.iestpdj.iestpdjpagos.model.ConceptoPago;
 import com.iestpdj.iestpdjpagos.utils.DatabaseConnection;
 
@@ -20,7 +20,7 @@ public class ConceptoPagoDAO implements IConceptoPagoDAO {
     }
 
     @Override
-    public boolean CreateConceptoPago(Alumno alumno) {
+    public boolean CreateConceptoPago(Estudiante alumno) {
         return false;
     }
 

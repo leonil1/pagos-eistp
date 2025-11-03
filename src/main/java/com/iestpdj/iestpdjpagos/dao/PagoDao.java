@@ -1,40 +1,40 @@
 package com.iestpdj.iestpdjpagos.dao;
 
+import com.iestpdj.iestpdjpagos.model.DetallePago;
+import com.iestpdj.iestpdjpagos.utils.DatabaseConnection;
 import com.iestpdj.iestpdjpagos.model.DatosBoleta;
 import com.iestpdj.iestpdjpagos.model.DetalleBoletaInfo;
-import com.iestpdj.iestpdjpagos.model.DetallePago;
-import com.iestpdj.iestpdjpagos.model.Pago;
-import com.iestpdj.iestpdjpagos.utils.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PagoDAO implements IPagoDAO{
+public class PagoDao {
 
     private Connection connection;
 
-    public PagoDAO(){
-        super();
+    public PagoDao() {
         this.connection = DatabaseConnection.getInstance().getConnection();
     }
 
-    public int registrarPagoCompleto(Long idEstudiante, int idUsuario, Long idMetodo,
+    public int registrarPagoCompleto(int idEstudiante, int idUsuario, int idMetodo,
                                      double montoTotal, List<DetallePago> detalles)
             throws SQLException {
+
         Connection conn = null;
         int idPago = 0;
         int idBoleta = 0;
 
         try {
+
             // 1. Insertar pago
             String sqlPago = "INSERT INTO pagos (id_estudiante, id_usuario, id_metodo, " +
                     "monto_total, estado) VALUES (?, ?, ?, ?, 'PAGADO')";
             PreparedStatement stmtPago = connection.prepareStatement(sqlPago,
                     Statement.RETURN_GENERATED_KEYS);
-            stmtPago.setLong(1, idEstudiante);
-            stmtPago.setLong(2, idUsuario);
-            stmtPago.setLong(3, idMetodo);
+            stmtPago.setInt(1, idEstudiante);
+            stmtPago.setInt(2, idUsuario);
+            stmtPago.setInt(3, idMetodo);
             stmtPago.setDouble(4, montoTotal);
             stmtPago.executeUpdate();
 

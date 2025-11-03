@@ -1,8 +1,8 @@
 package com.iestpdj.iestpdjpagos.service;
 
-import com.iestpdj.iestpdjpagos.dao.AlumnoDAO;
+import com.iestpdj.iestpdjpagos.dao.EstudianteDAO;
 import com.iestpdj.iestpdjpagos.dao.IAlumnoDAO;
-import com.iestpdj.iestpdjpagos.model.Alumno;
+import com.iestpdj.iestpdjpagos.model.Estudiante;
 
 import java.util.List;
 
@@ -11,11 +11,11 @@ public class AlumnoService implements IAlumnoService {
     private IAlumnoDAO alumnoDAO;
 
     public AlumnoService() {
-        this.alumnoDAO = new AlumnoDAO();
+        this.alumnoDAO = new EstudianteDAO();
     }
 
     @Override
-    public boolean CreateAlumno(Alumno alumno) {
+    public boolean CreateAlumno(Estudiante alumno) {
         if (!validarDatosRegistro(alumno)) {
             return false;
         }
@@ -24,7 +24,7 @@ public class AlumnoService implements IAlumnoService {
            return false;
        }
 
-        Alumno alumnoSave = new Alumno();
+        Estudiante alumnoSave = new Estudiante();
         alumnoSave.setDni(alumno.getDni());
         alumnoSave.setNombre(alumno.getNombre());
         alumnoSave.setApellido_paterno(alumno.getApellido_paterno());
@@ -36,7 +36,7 @@ public class AlumnoService implements IAlumnoService {
     }
 
     @Override
-    public Alumno GetAlumnoById(String dni) {
+    public Estudiante GetAlumnoById(String dni) {
         if (dni == null || dni.isEmpty()) {
             return null;
         }
@@ -44,16 +44,16 @@ public class AlumnoService implements IAlumnoService {
     }
 
     @Override
-    public List<Alumno> obtenerTodosLosAlumnos() {
+    public List<Estudiante> obtenerTodosLosAlumnos() {
         return alumnoDAO.obtenerTodosLosAlumnos();
     }
 
     @Override
-    public boolean UpdateAlumno(Alumno alumno) {
+    public boolean UpdateAlumno(Estudiante alumno) {
         return alumnoDAO.ActualizarAlumno(alumno);
     }
 
-    private boolean validarDatosRegistro( Alumno alumno) {
+    private boolean validarDatosRegistro( Estudiante alumno) {
         if (alumno.getNombre() == null || alumno.getNombre().trim().isEmpty()) {
             System.out.println("El nombre no puede ser vacio");
             return false;

@@ -1,7 +1,7 @@
 package com.iestpdj.iestpdjpagos.controller;
 
-import com.iestpdj.iestpdjpagos.dao.AlumnoDAO;
-import com.iestpdj.iestpdjpagos.model.Alumno;
+import com.iestpdj.iestpdjpagos.dao.EstudianteDAO;
+import com.iestpdj.iestpdjpagos.model.Estudiante;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,29 +22,29 @@ public class EstudianteController {
 
 
     @FXML
-    private TableView<Alumno> tableAlumnos;
+    private TableView<Estudiante> tableAlumnos;
     @FXML
-    private TableColumn<Alumno, Integer> colId;
+    private TableColumn<Estudiante, Integer> colId;
     @FXML
-    private TableColumn<Alumno, Integer> colDni;
+    private TableColumn<Estudiante, Integer> colDni;
     @FXML
-    private TableColumn<Alumno, String> colNombre;
+    private TableColumn<Estudiante, String> colNombre;
     @FXML
-    private TableColumn<Alumno, String> colApellidoPaterno;
+    private TableColumn<Estudiante, String> colApellidoPaterno;
     @FXML
-    private TableColumn<Alumno, String> colApellidoMaterno;
+    private TableColumn<Estudiante, String> colApellidoMaterno;
     @FXML
-    private TableColumn<Alumno, String> colDireccion;
+    private TableColumn<Estudiante, String> colDireccion;
     @FXML
-    private TableColumn<Alumno, String> colEmail;
+    private TableColumn<Estudiante, String> colEmail;
     @FXML
-    private TableColumn<Alumno, String> colTelefono;
+    private TableColumn<Estudiante, String> colTelefono;
     @FXML
-    private TableColumn<Alumno, Boolean> colActivo;
+    private TableColumn<Estudiante, Boolean> colActivo;
 
-    private AlumnoDAO dao = new AlumnoDAO();
+    private EstudianteDAO dao = new EstudianteDAO();
 
-    private ObservableList<Alumno> lista = FXCollections.observableArrayList();
+    private ObservableList<Estudiante> lista = FXCollections.observableArrayList();
 
     private boolean maximizado = false;
 
@@ -60,7 +60,7 @@ public class EstudianteController {
             return ;
         }
 
-        ObservableList<Alumno> filtrados = lista.filtered(
+        ObservableList<Estudiante> filtrados = lista.filtered(
                 e -> e.getNombre().toLowerCase().contains(filtro)
                         || e.getDni().toLowerCase().contains(filtro)
         );
@@ -85,7 +85,7 @@ public class EstudianteController {
 
     public void cargarEstudiante() {
         lista.clear();
-        List<Alumno> alumnos = dao.obtenerTodosLosAlumnos();
+        List<Estudiante> alumnos = dao.obtenerTodosLosAlumnos();
         lista.addAll(alumnos);
     }
 
@@ -96,7 +96,7 @@ public class EstudianteController {
 
     @FXML
     private void editarEstudiante() {
-        Alumno alumno = tableAlumnos.getSelectionModel().getSelectedItem();
+        Estudiante alumno = tableAlumnos.getSelectionModel().getSelectedItem();
         if (alumno == null) {
             mostrarAlerta(Alert.AlertType.WARNING, "Seleccionar Estudiante", "Selecione un estudiante.");
             return;
@@ -106,7 +106,7 @@ public class EstudianteController {
 
     @FXML
     private void eliminarEstudiante() {
-        Alumno alumno = tableAlumnos.getSelectionModel().getSelectedItem();
+        Estudiante alumno = tableAlumnos.getSelectionModel().getSelectedItem();
         if (alumno == null) {
             mostrarAlerta(Alert.AlertType.WARNING, "Seleccionar Estudiante", "Seleccione un estudiante.");
             return;
@@ -136,7 +136,7 @@ public class EstudianteController {
         }
     }
 
-    private void abrirFormulario(Alumno alumno) {
+    private void abrirFormulario(Estudiante alumno) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/vistasFX/estudiante_form.fxml"));
             Parent root = fxmlLoader.load();
@@ -145,7 +145,7 @@ public class EstudianteController {
             if (alumno != null) {
                 controller.setEstudiante(alumno);
             } else {
-                controller.setEstudiante(new Alumno());
+                controller.setEstudiante(new Estudiante());
             }
 
             Stage stage = new Stage();

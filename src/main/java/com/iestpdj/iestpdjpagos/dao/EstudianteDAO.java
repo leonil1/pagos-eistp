@@ -1,6 +1,6 @@
 package com.iestpdj.iestpdjpagos.dao;
 
-import com.iestpdj.iestpdjpagos.model.Alumno;
+import com.iestpdj.iestpdjpagos.model.Estudiante;
 import com.iestpdj.iestpdjpagos.utils.DatabaseConnection;
 
 import java.sql.Connection;
@@ -10,17 +10,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlumnoDAO implements IAlumnoDAO{
+public class EstudianteDAO implements IAlumnoDAO{
 
     private Connection connection;
 
-    public AlumnoDAO() {
+    public EstudianteDAO() {
         this.connection = DatabaseConnection.getInstance().getConnection();
     }
 
 
     @Override
-    public boolean CreateAlumno(Alumno alumno) {
+    public boolean CreateAlumno(Estudiante alumno) {
         String sql = "INSERT INTO estudiante (dni, nombre, apellido_paterno, apellido_materno, email, telefono, activo) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -42,21 +42,44 @@ public class AlumnoDAO implements IAlumnoDAO{
 
 
     @Override
-    public Alumno buscarAlumno(String dni) {
+    public Estudiante buscarAlumno(String dni) {
+        String sql = "SELECT * FROM estudiante WHERE dni = ? AND activo = TRUE";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setString(1, dni);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new Estudiante(
+                        rs.getLong("id"),
+                        rs.getString("dni"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido_paterno"),
+                        rs.getString("apellido_materno"),
+                        rs.getString("email"),
+                        rs.getString("direccion"),
+                        rs.getString("telefono"),
+                        rs.getBoolean("activo")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
     @Override
-    public List<Alumno> obtenerTodosLosAlumnos() {
+    public List<Estudiante> obtenerTodosLosAlumnos() {
 
-        List<Alumno> lista = new ArrayList<>();
+        List<Estudiante> lista = new ArrayList<>();
 
         String sql = "SELECT id, dni, nombre, apellido_paterno, apellido_materno, direccion, email, telefono, activo FROM estudiante WHERE activo = 1";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                Alumno alumno = new Alumno();
+                Estudiante alumno = new Estudiante();
                 alumno.setId(rs.getLong("id"));
                 alumno.setDni(rs.getString("dni"));
                 alumno.setNombre(rs.getString("nombre"));
@@ -75,7 +98,7 @@ public class AlumnoDAO implements IAlumnoDAO{
     }
 
     @Override
-    public Boolean ActualizarAlumno(Alumno alumno) {
+    public Boolean ActualizarAlumno(Estudiante alumno) {
         String sql = "UPDATE estudiante SET dni=?, nombre=?, apellido_paterno=?, apellido_materno=?, direccion=?,  email=?, telefono=?, activo=? WHERE id=? ";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, alumno.getDni());

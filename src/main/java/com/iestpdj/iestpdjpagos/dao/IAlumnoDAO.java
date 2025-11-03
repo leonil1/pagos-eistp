@@ -1,14 +1,13 @@
 package com.iestpdj.iestpdjpagos.dao;
 
-import com.iestpdj.iestpdjpagos.model.Alumno;
-import com.iestpdj.iestpdjpagos.model.Usuario;
+import com.iestpdj.iestpdjpagos.model.Estudiante;
 
 import java.util.List;
 
 public interface IAlumnoDAO {
-    boolean CreateAlumno(Alumno alumno);
-    Alumno buscarAlumno(String dni);
-    List<Alumno> obtenerTodosLosAlumnos();
-    Boolean ActualizarAlumno(Alumno alumno);
+    boolean CreateAlumno(Estudiante alumno);
+    Estudiante buscarAlumno(String dni);
+    List<Estudiante> obtenerTodosLosAlumnos();
+    Boolean ActualizarAlumno(Estudiante alumno);
     Boolean EliminarAlumno(Long id);
 }

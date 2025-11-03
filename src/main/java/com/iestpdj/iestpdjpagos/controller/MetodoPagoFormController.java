@@ -43,6 +43,7 @@ public class MetodoPagoFormController {
     private void guardar() {
         String nomnre = textNombre.getText().trim();
         String descripcion = textDescripcion.getText().trim();
+
         if (nomnre.isEmpty() || descripcion.isEmpty()) {
             mostrarAlerta(Alert.AlertType.WARNING, "Validacion", "Nombre no puede ser vacio");
             return;
@@ -53,7 +54,7 @@ public class MetodoPagoFormController {
         metodoPago.setActivo(rbActivo.isSelected());
 
         try {
-            if (metodoPago.getId_metodo() != null && metodoPago.getId_metodo() >0){
+            if (metodoPago.getId_metodo() != null && metodoPago.getId_metodo() > 0){
                 dao.ActualizarMetodoPago(metodoPago);
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Actualizado", "Se Guardo con exito");
             } else {

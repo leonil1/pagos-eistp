@@ -1,7 +1,7 @@
 package com.iestpdj.iestpdjpagos.controller;
 
-import com.iestpdj.iestpdjpagos.dao.AlumnoDAO;
-import com.iestpdj.iestpdjpagos.model.Alumno;
+import com.iestpdj.iestpdjpagos.dao.EstudianteDAO;
+import com.iestpdj.iestpdjpagos.model.Estudiante;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
@@ -23,8 +23,8 @@ public class EstudianteFormController {
     @FXML
     private RadioButton rbInactivo;
 
-    private Alumno alumno;
-    private AlumnoDAO dao = new AlumnoDAO();
+    private Estudiante alumno;
+    private EstudianteDAO dao = new EstudianteDAO();
     private boolean saved = false;
 
     @FXML
@@ -34,7 +34,7 @@ public class EstudianteFormController {
         rbInactivo.setToggleGroup(group);
     }
 
-    public void  setEstudiante(Alumno alumno){
+    public void  setEstudiante(Estudiante alumno){
         this.alumno = alumno;
         if (alumno.getId() != null) {
             textDni.setText(alumno.getDni());

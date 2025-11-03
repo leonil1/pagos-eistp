@@ -2,7 +2,7 @@ package com.iestpdj.iestpdjpagos.model;
 
 import java.time.LocalDateTime;
 
-public class Alumno {
+public class Estudiante {
 
     private Long id;
     private String dni;
@@ -16,13 +16,13 @@ public class Alumno {
     private LocalDateTime fecha_creacion;
     private LocalDateTime fecha_modificacion;
 
-    public Alumno() {
+    public Estudiante() {
         super();
     }
 
-    public Alumno(String dni, String nombre, String apellido_paterno, String apellido_materno,
-                  String direccion, String email, String telefono, boolean activo,
-                  LocalDateTime fecha_creacion, LocalDateTime fecha_modificacion) {
+    public Estudiante(String dni, String nombre, String apellido_paterno, String apellido_materno,
+                      String direccion, String email, String telefono, boolean activo,
+                      LocalDateTime fecha_creacion, LocalDateTime fecha_modificacion) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido_paterno = apellido_paterno;
@@ -33,6 +33,23 @@ public class Alumno {
         this.activo = activo;
         this.fecha_creacion = fecha_creacion;
         this.fecha_modificacion = fecha_modificacion;
+    }
+
+    public Estudiante(long id, String dni, String nombre, String apellidoPaterno, String apellidoMaterno, String email,
+                      String direccion, String telefono, boolean activo) {
+        this.id = id;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido_paterno = apellidoPaterno;
+        this.apellido_materno = apellidoMaterno;
+        this.direccion = direccion;
+        this.email = email;
+        this.telefono = telefono;
+        this.activo = activo;
+    }
+
+    public String getNombreCompleto() {
+        return nombre + " " + apellido_paterno + " " + apellido_materno;
     }
 
     public Long getId() {
