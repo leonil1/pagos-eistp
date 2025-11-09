@@ -10,6 +10,8 @@ module com.iestpdj.iestpdjpagos {
     requires org.apache.pdfbox;
     requires kernel;
     requires layout;
+    requires org.slf4j;
+    requires io;
 
     opens com.iestpdj.iestpdjpagos to javafx.fxml;
     exports com.iestpdj.iestpdjpagos;

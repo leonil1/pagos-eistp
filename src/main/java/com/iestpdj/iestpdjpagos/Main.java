@@ -5,8 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 
 public class Main extends Application {
+    // 🔹 Declaras el logger (uno por clase)
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/vistasFX/login.fxml"));
@@ -18,9 +25,20 @@ public class Main extends Application {
         stage.setScene(scene);
 
         stage.show();
+
+        logger.info("Aplicación iniciando...");
+        try {
+            // Tu lógica JavaFX
+            stage.setTitle("Sistema de Pagos");
+            stage.show();
+            logger.info("Ventana mostrada correctamente");
+        } catch (Exception e) {
+            logger.error("Error al iniciar la aplicación", e);
+        }
     }
 
     public static void main(String[] args) {
+        logger.debug("Lanzando la aplicación...");
         launch(args);
     }
 }

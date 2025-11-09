@@ -41,6 +41,11 @@ public class DashbordController1 {
     }
 
     @FXML
+    private void mostrarListadoPagos(){
+        cargarVista("/vistasFX/lista_pago.fxml");
+    }
+
+    @FXML
     private void mostrarConceptoPago(){
         cargarVista("/vistasFX/concepto_pago.fxml");
     }

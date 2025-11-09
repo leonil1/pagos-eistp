@@ -11,12 +11,8 @@ import javafx.beans.property.*;
 import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.geometry.*;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.util.*;
@@ -31,7 +27,7 @@ public class PagosController extends Application {
     @FXML private TextField txtTelefonoEstudiante;
     @FXML private ComboBox<ConceptoPago> cboConceptos;
     @FXML private Spinner<Integer> spnCantidad;
-    @FXML private TableView<DetallePago> tblDetalles;
+    @FXML private TableView<DetallePagoView> tblDetalles;
     @FXML private ComboBox<MetodoPago> cboMetodoPago;
     @FXML private TextArea txtObservaciones;
     @FXML private Label lblTotal;
@@ -41,7 +37,7 @@ public class PagosController extends Application {
     @FXML private Button btnProcesar;
 
     private Estudiante estudianteSeleccionado;
-    private ObservableList<DetallePago> detallesPago;
+    private ObservableList<DetallePagoView> detallesPago;
     private List<ConceptoPago> conceptoDiponible;
     private List<MetodoPago> metodoDisponble;
 
@@ -50,10 +46,15 @@ public class PagosController extends Application {
     private MetodoPagoDAO metodoPagoDAO;
     private PagoDAO pagoDAO;
 
+    private int idUsuarioActual = 1;
+
     @FXML
     public void initialize() {
         inicializarDAOs();
         cargarDato();;
+        configurarTabla();
+        configurarSpinner();
+        configurarEventos();
     }
 
     public void inicializarDAOs(){
@@ -61,6 +62,7 @@ public class PagosController extends Application {
         conceptoPagoDAO = new ConceptoPagoDAO();
         metodoPagoDAO = new MetodoPagoDAO();
         pagoDAO = new PagoDAO();
+        detallesPago = FXCollections.observableArrayList();
     }
 
     private void cargarDato(){
@@ -132,39 +134,39 @@ public class PagosController extends Application {
     private void configurarTabla(){
         tblDetalles.setItems(detallesPago);
 
-        TableColumn<DetallePago, String> colConcepto =
-                (TableColumn<DetallePago, String>) tblDetalles.getColumns().get(0);
+        TableColumn<DetallePagoView, String> colConcepto =
+                (TableColumn<DetallePagoView, String>) tblDetalles.getColumns().get(0);
         colConcepto.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getConcepto().getId_concepto() + " - " +
-                        cellData.getValue().getConcepto().getDescripcion()));
+                new SimpleStringProperty(cellData.getValue().getIdConcepto() + " - " +
+                        cellData.getValue().getConcepto()));
 
-        TableColumn<DetallePago, Integer> colCantidad =
-                (TableColumn<DetallePago, Integer>) tblDetalles.getColumns().get(1);
+        TableColumn<DetallePagoView, Integer> colCantidad =
+                (TableColumn<DetallePagoView, Integer>) tblDetalles.getColumns().get(1);
         colCantidad.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(cellData.getValue().getCantidad()));
 
-        TableColumn<DetallePago, String> colPrecioUnitario =
-                (TableColumn<DetallePago, String>) tblDetalles.getColumns().get(2);
+        TableColumn<DetallePagoView, String> colPrecioUnitario =
+                (TableColumn<DetallePagoView, String>) tblDetalles.getColumns().get(2);
         colPrecioUnitario.setCellValueFactory(cellData ->
                 new SimpleStringProperty(String.format("S/ %.2f",
                         cellData.getValue().getPrecioUnitario())));
 
-        TableColumn<DetallePago, String> colSubtotal =
-                (TableColumn<DetallePago, String>) tblDetalles.getColumns().get(3);
+        TableColumn<DetallePagoView, String> colSubtotal =
+                (TableColumn<DetallePagoView, String>) tblDetalles.getColumns().get(3);
         colSubtotal.setCellValueFactory(cellData ->
                 new SimpleStringProperty(String.format("S/ %.2f",
                         cellData.getValue().getSubtotal())));
 
 
-        TableColumn<DetallePago, Void> colAcciones =
-                (TableColumn<DetallePago, Void>) tblDetalles.getColumns().get(4);
-        colAcciones.setCellFactory(column -> new TableCell<DetallePago, Void>() {
+        TableColumn<DetallePagoView, Void> colAcciones =
+                (TableColumn<DetallePagoView, Void>) tblDetalles.getColumns().get(4);
+        colAcciones.setCellFactory(column -> new TableCell<>() {
             private final Button btnEliminar = new Button("Eliminar");
 
             {
                 btnEliminar.getStyleClass().add("btn-danger");
                 btnEliminar.setOnAction(event -> {
-                    DetallePago detalle = getTableView().getItems().get(getIndex());
+                    DetallePagoView detalle = getTableView().getItems().get(getIndex());
                     eliminarDetalle(detalle);
                 });
             }
@@ -184,11 +186,11 @@ public class PagosController extends Application {
     }
 
     @FXML
-    private void eliminarDetalle(  DetallePago detalle){
+    private void eliminarDetalle(DetallePagoView detalle){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmar eliminación");
         alert.setHeaderText("¿Estás seguro de eliminar este detalle?");
-        alert.setContentText("Concepto:" + detalle.getConcepto().getDescripcion() + "\n" +
+        alert.setContentText("Concepto:" + detalle.getConcepto() + "\n" +
                 "Cantidad: " + detalle.getCantidad() + "\n" +
                 "Subtotal: S/ " + String.format("%.2f", detalle.getSubtotal()));
         Optional<ButtonType> result = alert.showAndWait();
@@ -200,13 +202,7 @@ public class PagosController extends Application {
         }
     }
 
-    private void actualizarTotal() {
-        double total = detallesPago.stream()
-                .mapToDouble(DetallePago::getSubtotal)
-                .sum();
 
-        lblTotal.setText(String.format("S/ %.2f", total));
-    }
 
     private void configurarSpinner() {
         SpinnerValueFactory<Integer> valueFactory =
@@ -217,7 +213,7 @@ public class PagosController extends Application {
 
     private void configurarEventos() {
         // Actualizar total cuando cambia la cantidad en la tabla
-        detallesPago.addListener((javafx.collections.ListChangeListener.Change<? extends DetallePago> c) -> {
+        detallesPago.addListener((javafx.collections.ListChangeListener.Change<? extends DetallePagoView> c) -> {
             actualizarTotal();
         });
 
@@ -254,7 +250,7 @@ public class PagosController extends Application {
 
         // Verificar si ya existe el concepto
         boolean existe = detallesPago.stream()
-                .anyMatch(d -> d.getConcepto().getId_concepto() == concepto.getId_concepto());
+                .anyMatch(d -> d.getIdConcepto() == concepto.getId_concepto());
 
         if (existe){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -265,8 +261,8 @@ public class PagosController extends Application {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK){
-                DetallePago detalleExistente = detallesPago.stream()
-                        .filter(d -> d.getConcepto().getId_concepto() == concepto.getId_concepto())
+                DetallePagoView detalleExistente = detallesPago.stream()
+                        .filter(d -> d.getIdConcepto()== concepto.getId_concepto())
                         .findFirst()
                         .orElse(null);
 
@@ -279,12 +275,15 @@ public class PagosController extends Application {
             return;
         }
 
-        // con tabla
-//       DetallePago nuevoDetalle = new DetallePago(
-//               // completar el metodo
-//       );
 
-       // detallesPago.add(nuevoDetalle);
+        DetallePagoView nuevoDetalle = new DetallePagoView(
+               concepto.getId_concepto(),
+               concepto.getDescripcion(),
+                cantidad,
+               concepto.getPrecio()
+       );
+
+        detallesPago.add(nuevoDetalle);
 
         // Limpiar selección
         cboConceptos.setValue(null);
@@ -296,6 +295,192 @@ public class PagosController extends Application {
                 concepto.getNombre() + " agregado correctamente");
     }
 
+    @FXML
+    private void procesarPago(){
+
+        if (estudianteSeleccionado == null) {
+            mostrarAdvertencia("⚠ Estudiante requerido",
+                    "Primero debe buscar y seleccionar un estudiante");
+            txtDNI.requestFocus();
+            return;
+        }
+
+        if (detallesPago.isEmpty()){
+            mostrarAdvertencia("⚠ Detalles de pago vacíos",
+                    "Debe agregar al menos un concepto de pago");
+            cboConceptos.requestFocus();
+            return;
+        }
+
+        MetodoPago metodo = cboMetodoPago.getValue();
+        if (metodo == null){
+            mostrarAdvertencia("⚠ Método de pago requerido",
+                    "Por favor seleccione un método de pago de la lista");
+            cboMetodoPago.requestFocus();
+            return;
+        }
+
+        double total = detallesPago.stream()
+                .mapToDouble(DetallePagoView::getSubtotal)
+                .sum();
+
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar pago");
+        confirmacion.setHeaderText("¿Desea procesar el pago por S/" + String.format("%.2f", total) + "?");
+
+        StringBuilder contenido = new StringBuilder();
+        contenido.append("ESTUDIANTE:\n");
+        contenido.append(" . ").append(estudianteSeleccionado.getNombreCompleto()).append("\n");
+        contenido.append(" . DNI ").append(estudianteSeleccionado.getDni()).append("\n\n");
+        contenido.append("DETALLES DE PAGO:\n");
+        for (DetallePagoView detalle: detallesPago){
+            contenido.append(" . ").append(detalle.getIdConcepto())
+                    .append(" (x").append(detalle.getCantidad()).append(") - S/")
+                    .append(String.format("%.2f", detalle.getSubtotal())).append("\n");
+        }
+        contenido.append("\nMETODO DE PAGO: ").append(metodo.getNombre());
+        contenido.append("\n\nTOTAL: s/ ").append(String.format("%.2f", total));
+
+        confirmacion.setContentText(contenido.toString());
+
+        Optional<ButtonType> result = confirmacion.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            registrarPago(metodo, total);
+        }
+    }
+
+    private void registrarPago(MetodoPago metodo, double total){
+        try {
+            Alert progress = new Alert(Alert.AlertType.INFORMATION);
+            progress.setTitle("Procesando...");
+            progress.setHeaderText("⏳ Procesando pago");
+            progress.setContentText("Por favor espere...");
+            progress.show();
+
+            List<DetallePago> detalles = new ArrayList<>();
+            for (DetallePagoView vista : detallesPago){
+                ConceptoPago concepto = conceptoDiponible.stream()
+                        .filter(c -> c.getId_concepto()==vista.getIdConcepto())
+                        .findFirst()
+                        .orElse(null);
+
+                if (concepto != null){
+                    detalles.add(new DetallePago(concepto, vista.getCantidad()));
+                }
+            }
+
+            int idBoleta = pagoDAO.registrarPagoCompleto(
+                    estudianteSeleccionado.getId(),
+                    idUsuarioActual,
+                    metodo.getId_metodo(),
+                    total,
+                    detalles
+            );
+
+            progress.close();
+
+            generarBoletaPDF(idBoleta);
+
+            Alert exito = new Alert(Alert.AlertType.INFORMATION);
+            exito.setTitle("✓ Pago Exitoso");
+            exito.setHeaderText("¡Pago procesado correctamente!");
+            exito.setContentText("• Pago registrado en el sistema\n" +
+                    "• Boleta generada en PDF\n" +
+                    "• Total: S/ " + String.format("%.2f", total));
+            exito.showAndWait();
+
+            limpiarFormulario();
+        } catch (Exception ex){
+            mostrarError("❌ Error al procesar pago",
+                    "Ocurrió un error al registrar el pago:\n\n" + ex.getMessage() +
+                            "\n\nPor favor, verifique la conexión a la base de datos.");
+            ex.printStackTrace();
+        }
+    }
+
+    private void generarBoletaPDF(int idBoleta){
+        try {
+            DatosBoleta datos = pagoDAO.obtenerDatosBoleta(idBoleta);
+            List<DetalleBoletaInfo> detalles = pagoDAO.obtenerDetallesBoleta(idBoleta);
+
+            File pdf = BoletaPDFGenerator.generarBoletaPDF(datos, detalles);
+
+            // Validaciones básicas del archivo generado
+            if (pdf == null) {
+                mostrarError("Error al generar PDF", "No se generó el archivo PDF (null).");
+                return;
+            }
+            if (!pdf.exists() || pdf.length() == 0) {
+                mostrarError("Error al generar PDF",
+                        "El archivo PDF no existe o está vacío:\n" + pdf.getAbsolutePath());
+                return;
+            }
+
+            // Verificar soporte del Desktop y la acción OPEN
+            if (java.awt.Desktop.isDesktopSupported()) {
+                java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+                if (desktop.isSupported(java.awt.Desktop.Action.OPEN)) {
+                    // Abrir en un hilo separado para no bloquear la UI
+                    new Thread(() -> {
+                        try {
+                            desktop.open(pdf);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            javafx.application.Platform.runLater(() ->
+                                    mostrarInformacion("PDF Generado",
+                                            "No se pudo abrir automáticamente. Archivo en:\n" + pdf.getAbsolutePath())
+                            );
+                        }
+                    }).start();
+                    return;
+                }
+            }
+
+            // Si no se puede abrir automáticamente, mostrar la ruta
+            mostrarInformacion("PDF Generado",
+                    "La boleta se ha generado correctamente en:\n" + pdf.getAbsolutePath());
+        } catch (Exception ex){
+            mostrarError("Error al generar PDF ",
+                    "No se pudo generar la boleta en PDF:\n" + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void limpiarFormulario(){
+        Alert confirmacion = new Alert(Alert.AlertType.INFORMATION);
+        confirmacion.setTitle("Confirmar Limpieza");
+        confirmacion.setHeaderText("¿Limpiar el Formulario?");
+        confirmacion.setContentText("Se perderan todo los datos Ingresados");
+
+        Optional<ButtonType> result = confirmacion.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            txtDNI.clear();
+            limpiarDatosEstudiante();
+            detallesPago.clear();
+            cboConceptos.setValue(null);
+            cboMetodoPago.setValue(null);
+            txtObservaciones.clear();
+            spnCantidad.getValueFactory().setValue(1);
+            actualizarTotal();
+            txtDNI.requestFocus();
+        }
+    }
+
+    private void limpiarDatosEstudiante() {
+        estudianteSeleccionado = null;
+        txtNombreEstudiante.clear();
+        txtEmailEstudiante.clear();
+        txtTelefonoEstudiante.clear();
+    }
+
+    private void actualizarTotal() {
+        double total = detallesPago.stream()
+                .mapToDouble(DetallePagoView::getSubtotal)
+                .sum();
+
+        lblTotal.setText(String.format("S/ %.2f", total));
+    }
 
 
     private void mostrarError(String titulo, String mensaje) {

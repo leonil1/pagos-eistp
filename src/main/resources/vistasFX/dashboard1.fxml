@@ -34,6 +34,10 @@
                     onAction="#mostrarPagos"
                     text="💰 Pagos"
                     styleClass="menu-button"/>
+            <Button fx:id="btnListadoPagos"
+                    onAction="#mostrarListadoPagos"
+                    text="💰 Listado Pagos"
+                    styleClass="menu-button"/>
 
             <Button fx:id="btnConceptoPago"
                     onAction="#mostrarConceptoPago"

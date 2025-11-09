@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.iestpdj.iestpdjpagos.controller.ListadoPagoController"
+            prefWidth="950" prefHeight="620"
+            style="-fx-background-color: linear-gradient(to bottom right, #f8f9fa, #e9ecef);">
+
+    <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
+
+        <!-- ====== TÍTULO ====== -->
+        <Label text="Gestión de Conceptos de Pago"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+        <!-- ====== PANEL DE BOTONES SUPERIOR ====== -->
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Button fx:id="nuevoConceptoPago" text="Nuevo"
+                    style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;">
+                <graphic>
+                    <FontIcon iconLiteral="fas-plus" iconColor="white" iconSize="16"/>
+                </graphic>
+            </Button>
+
+            <Button fx:id="btnEditar" text="Editar"
+                    style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;">
+                <graphic>
+                    <FontIcon iconLiteral="fas-edit" iconColor="white" iconSize="16"/>
+                </graphic>
+            </Button>
+
+            <Button fx:id="btnEliminar" text="Eliminar"
+                    style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;">
+                <graphic>
+                    <FontIcon iconLiteral="fas-trash" iconColor="white" iconSize="16"/>
+                </graphic>
+            </Button>
+
+            <Button fx:id="btnRefrescar" text="Refrescar"
+                    style="-fx-background-color: #17a2b8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;">
+                <graphic>
+                    <FontIcon iconLiteral="fas-sync" iconColor="white" iconSize="16"/>
+                </graphic>
+            </Button>
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <!-- ====== BUSCADOR ====== -->
+            <HBox spacing="8" alignment="CENTER_RIGHT">
+                <TextField fx:id="txtBuscar" promptText="Buscar concepto..."
+                           prefWidth="300"
+                           style="-fx-background-radius: 6; -fx-border-color: #ced4da; -fx-border-radius: 6; -fx-padding: 8;" />
+                <Button fx:id="btnBuscar"
+                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-search" iconColor="white" iconSize="16"/>
+                    </graphic>
+                </Button>
+            </HBox>
+        </HBox>
+
+        <!-- ====== CONTENEDOR DE TABLA ====== -->
+        <StackPane style="-fx-background-color: white; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);">
+            <VBox spacing="8">
+                <padding>
+                    <Insets top="16" right="16" bottom="16" left="16"/>
+                </padding>
+
+                <!-- ====== TABLA PRINCIPAL ====== -->
+                <TableView fx:id="tablaPagos"
+                           prefHeight="500.0"
+                           style="-fx-background-radius: 8; -fx-border-radius: 8;">
+                    <columns>
+                        <TableColumn fx:id="colIdPago" text="ID Pago" prefWidth="80" />
+                        <TableColumn fx:id="colNombre" text="Nombre Estudiante" prefWidth="280" />
+                        <TableColumn fx:id="colUsuario" text="Usuario" prefWidth="220" />
+                        <TableColumn fx:id="colMetodo" text="Método de Pago" prefWidth="140" />
+                        <TableColumn fx:id="colMonto" text="Monto Total" prefWidth="100" />
+                        <TableColumn fx:id="colFecha" text="Fecha Pago" prefWidth="120" />
+                        <TableColumn fx:id="colEstado" text="Estado" prefWidth="100" />
+                    </columns>
+                </TableView>
+                <Pagination fx:id="pagination"
+                            prefWidth="900"
+                            pageCount="1"
+                            maxPageIndicatorCount="10"
+                            AnchorPane.bottomAnchor="10"
+                            AnchorPane.leftAnchor="20"
+                            AnchorPane.rightAnchor="20"/>
+            </VBox>
+        </StackPane>
+    </VBox>
+</AnchorPane>

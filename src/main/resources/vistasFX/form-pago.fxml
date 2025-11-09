@@ -112,7 +112,7 @@
                                  styleClass="spinner"/>
 
                         <Button fx:id="btnAgregar" text="➕ Agregar Concepto"
-                                 styleClass="btn-success">
+                                onAction="#agregarConcepto" styleClass="btn-success">
                             <HBox.margin>
                                 <Insets left="20"/>
                             </HBox.margin>
@@ -223,14 +223,14 @@
 
                 <!-- BOTONES -->
                 <HBox spacing="15" alignment="CENTER_RIGHT">
-                    <Button fx:id="btnLimpiar" text="🗑️ Limpiar"
+                    <Button fx:id="btnLimpiar" text="🗑️ Limpiar" onAction="#limpiarFormulario"
                             styleClass="btn-secondary" prefWidth="130">
                         <font>
                             <Font name="System Bold" size="13"/>
                         </font>
                     </Button>
 
-                    <Button fx:id="btnProcesar" text="✓ Procesar Pago"
+                    <Button fx:id="btnProcesar" text="✓ Procesar Pago" onAction="#procesarPago"
                             styleClass="btn-success-large" prefWidth="180">
                         <font>
                             <Font name="System Bold" size="14"/>
