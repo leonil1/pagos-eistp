@@ -1,70 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.Color?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.iestpdj.iestpdjpagos.controller.DashbordController1"
-            prefWidth="1000.0" prefHeight="700.0">
+            prefWidth="1280.0" prefHeight="800.0"
+            style="-fx-background-color: #f4f6f7;">
 
     <!-- ======== PANEL IZQUIERDO (MENÚ LATERAL) ======== -->
     <left>
-        <VBox spacing="20" alignment="TOP_CENTER"
-              style="-fx-background-color: linear-gradient(to bottom, #2c3e50, #34495e);
-                     -fx-padding: 25;
-                     -fx-pref-width: 220;">
+        <VBox spacing="15" alignment="TOP_CENTER"
+              style="-fx-background-color: linear-gradient(to bottom, #1e3c72, #2a5298);
+                     -fx-pref-width: 240;
+                     -fx-padding: 30 0 30 0;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.3, 3, 0);">
 
-            <!-- TÍTULO / LOGO -->
-            <Label text="IESTP DJ Pagos"
-                   style="-fx-text-fill: #ecf0f1;
-                          -fx-font-size: 20px;
+            <!-- LOGO / TÍTULO -->
+            <Label text="💼 IESTP DJ PAGOS"
+                   style="-fx-text-fill: white;
+                          -fx-font-size: 22px;
                           -fx-font-weight: bold;
-                          -fx-padding: 10 0 20 0;" />
+                          -fx-padding: 10 0 15 0;" />
 
-            <Separator style="-fx-background-color: #7f8c8d;" prefWidth="180"/>
+            <Separator prefWidth="180" style="-fx-background-color: #ffffff33;" />
 
-            <!-- BOTONES DEL MENÚ -->
-            <Button fx:id="btnEstudiante"
+            <!-- BOTONES DE MENÚ -->
+            <Button fx:id="btnEstudiante" text="👨‍🎓 Estudiantes"
                     onAction="#mostrarEstudiante"
-                    text="👨‍ Estudiantes"
                     styleClass="menu-button"/>
 
-            <Button fx:id="btnPagos"
+            <Button fx:id="btnPagos" text="💰 Pagos"
                     onAction="#mostrarPagos"
-                    text="💰 Pagos"
                     styleClass="menu-button"/>
-            <Button fx:id="btnListadoPagos"
+
+            <Button fx:id="btnListadoPagos" text="📜 Listado Pagos"
                     onAction="#mostrarListadoPagos"
-                    text="💰 Listado Pagos"
                     styleClass="menu-button"/>
 
-            <Button fx:id="btnConceptoPago"
+            <Button fx:id="btnConceptoPago" text="📄 Conceptos de Pago"
                     onAction="#mostrarConceptoPago"
-                    text="📄 Conceptos de Pago"
                     styleClass="menu-button"/>
-            <Button fx:id="btnMetodoPago"
-                    onAction="#mostrarMetodoPago"
-                    text="Metodo Pago"
-                    styleClass="menu-button"
-                    />
 
-            <Button fx:id="btnSalir"
+            <Button fx:id="btnMetodoPago" text="💳 Métodos de Pago"
+                    onAction="#mostrarMetodoPago"
+                    styleClass="menu-button"/>
+
+            <Separator prefWidth="180" style="-fx-background-color: #ffffff33;" />
+
+            <Button fx:id="btnSalir" text="🚪 Cerrar Sesión"
                     onAction="#cerrarSesion"
-                    text="🚪 Salir"
                     styleClass="menu-button-exit"/>
         </VBox>
     </left>
 
+    <!-- ======== PANEL SUPERIOR (BARRA DE TÍTULO) ======== -->
+    <top>
+        <HBox spacing="10" alignment="CENTER_RIGHT"
+              style="-fx-background-color: #1e3c72;
+                     -fx-padding: 10 20 10 20;
+                     -fx-border-color: #dcdcdc;
+                     -fx-border-width: 0 0 1 0;">
+            <Label text="📅 " style="-fx-font-size: 16px;"/>
+            <Label fx:id="lblFecha"
+                   text="Sábado, 09 Noviembre 2025"
+                   style="-fx-font-size: 16px; -fx-text-fill: #dcdcdc;"/>
+        </HBox>
+    </top>
+
     <!-- ======== PANEL CENTRAL ======== -->
     <center>
         <StackPane fx:id="contentArea" alignment="CENTER"
-                   style="-fx-background-color: #ecf0f1;
-                          -fx-padding: 30;
-                          -fx-border-color: #bdc3c7;
-                          -fx-border-width: 0 0 0 1;">
+                   style="-fx-background-color: #f9f9f9;
+                          -fx-padding: 40;">
             <Label text="Bienvenido al Sistema de Pagos"
-                   style="-fx-font-size: 22px; -fx-text-fill: #2c3e50;"/>
+                   style="-fx-font-size: 26px;
+                          -fx-text-fill: #2c3e50;
+                          -fx-font-weight: bold;
+                          -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0.3, 1, 1);"/>
         </StackPane>
     </center>
 

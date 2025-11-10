@@ -3,14 +3,9 @@ package com.iestpdj.iestpdjpagos.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -21,12 +16,6 @@ public class DashbordController1 {
 
     @FXML
     private  void initialize() {
-//        try {
-//            Pane vistaInicio = FXMLLoader.load(getClass().getResource("/vistasFX/inicio.fxml"));
-//            contentArea.getChildren().setAll(vistaInicio);
-//        } catch (IOException e) {
-//            mostrarError("Error al cargar la vista de inicio", e);
-//        }
     }
 
 
@@ -87,4 +76,5 @@ public class DashbordController1 {
         alert.showAndWait();
         e.printStackTrace();
     }
+
 }
