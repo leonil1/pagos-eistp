@@ -1,5 +1,8 @@
 package com.iestpdj.iestpdjpagos.controller;
 
+import com.iestpdj.iestpdjpagos.dao.ConceptoPagoDAO;
+import com.iestpdj.iestpdjpagos.model.ConceptoPago;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -16,6 +19,7 @@ public class ConceptoPagoFormController {
 
     private boolean modoEdicion = false;
     private int idConceptoEdicion;
+    private ConceptoPagoDAO dao = new ConceptoPagoDAO();
 
     @FXML
     public void initialize() {
@@ -46,23 +50,72 @@ public class ConceptoPagoFormController {
             return;
         }
 
+        // Normalizar separador decimal (\`1,23\` -> \`1.23\`)
+        precioStr = precioStr.replace(',', '.');
+
+        double precio;
         try {
-            double precio = Double.parseDouble(precioStr);
+            precio = Double.parseDouble(precioStr);
             if (precio < 0) {
                 mostrarAlerta("Precio inválido", "El precio no puede ser negativo.", Alert.AlertType.WARNING);
                 return;
             }
-
-            // TODO: Lógica para guardar o actualizar concepto
-            // Si estás usando DAO:
-            // ConceptoPagoDAO.guardar(new ConceptoPago(idConceptoEdicion, nombre, descripcion, precio, estado));
-
-            mostrarAlerta("Éxito", "Concepto guardado correctamente.", Alert.AlertType.INFORMATION);
-            cerrarVentana();
-
         } catch (NumberFormatException ex) {
             mostrarAlerta("Formato inválido", "El precio debe ser numérico.", Alert.AlertType.ERROR);
+            return;
         }
+
+        if (estado == null) {
+            if (!cbEstado.getItems().isEmpty()) {
+                estado = cbEstado.getItems().get(0);
+            } else {
+                estado = "Activo";
+            }
+        }
+
+        final ConceptoPago concepto = new ConceptoPago(
+                modoEdicion ? idConceptoEdicion : 0,
+                nombre,
+                descripcion,
+                precio,
+                estado
+        );
+
+        // Evitar múltiples envíos mientras se procesa
+        btnGuardar.setDisable(true);
+        btnCancelar.setDisable(true);
+
+        Task<Boolean> task = new Task<>() {
+            @Override
+            protected Boolean call() throws Exception {
+                if (modoEdicion) {
+                    return dao.ActualizarConceptoPago(concepto);
+                } else {
+                    return dao.CreateConceptoPago(concepto);
+                }
+            }
+        };
+
+        task.setOnSucceeded(evt -> {
+            boolean resultado = task.getValue();
+            btnGuardar.setDisable(false);
+            btnCancelar.setDisable(false);
+            if (resultado) {
+                mostrarAlerta("Éxito", modoEdicion ? "Concepto actualizado correctamente." : "Concepto guardado correctamente.", Alert.AlertType.INFORMATION);
+                cerrarVentana();
+            } else {
+                mostrarAlerta("Error", "No se pudo guardar el concepto.", Alert.AlertType.ERROR);
+            }
+        });
+
+        task.setOnFailed(evt -> {
+            btnGuardar.setDisable(false);
+            btnCancelar.setDisable(false);
+            Throwable ex = task.getException();
+            mostrarAlerta("Error de persistencia", "Ocurrió un error al acceder a la base de datos: " + (ex != null ? ex.getMessage() : "desconocido"), Alert.AlertType.ERROR);
+        });
+
+        new Thread(task).start();
     }
 
     private void cerrarVentana() {

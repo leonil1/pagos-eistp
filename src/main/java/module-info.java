@@ -12,6 +12,8 @@ module com.iestpdj.iestpdjpagos {
     requires layout;
     requires org.slf4j;
     requires io;
+    requires org.apache.poi.poi;
+    requires org.apache.poi.ooxml;
 
     opens com.iestpdj.iestpdjpagos to javafx.fxml;
     exports com.iestpdj.iestpdjpagos;

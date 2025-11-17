@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 
 public class Main extends Application {
-    // 🔹 Declaras el logger (uno por clase)
+
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     @Override
@@ -28,7 +28,6 @@ public class Main extends Application {
 
         logger.info("Aplicación iniciando...");
         try {
-            // Tu lógica JavaFX
             stage.setTitle("Sistema de Pagos");
             stage.show();
             logger.info("Ventana mostrada correctamente");

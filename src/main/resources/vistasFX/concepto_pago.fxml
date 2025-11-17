@@ -20,21 +20,32 @@
 
         <!-- Panel de botones -->
         <HBox spacing="12" alignment="CENTER_LEFT">
-            <Button fx:id="nuevoConceptoPago" text="Nuevo"
+
+            <Button fx:id="btnNuevo" text="➕ Nuevo" onAction="#nuevoConceptoPago"
                     style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;" />
-            <Button fx:id="btnEditar" text="Editar"
+
+            <Button fx:id="btnEditar" text="✏ Editar" onAction="#editarConceptoPago"
                     style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;" />
-            <Button fx:id="btnEliminar" text="Eliminar"
+
+            <Button fx:id="btnEliminar" text="🗑 Eliminar" onAction="#eliminarConcepto"
                     style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;" />
-            <Button fx:id="btnRefrescar" text="Refrescar"
+
+            <Button fx:id="btnRefrescar" text="🔄 Refrescar" onAction="#refrescar"
                     style="-fx-background-color: #17a2b8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;" />
+
             <Region HBox.hgrow="ALWAYS" />
+
+            <!-- Buscador -->
             <TextField fx:id="txtBuscar" promptText="Buscar concepto..."
-                       prefWidth="220" style="-fx-background-radius: 6;" />
+                       prefWidth="280" style="-fx-background-radius: 6;" />
+
+            <!-- Botón Buscar agregado -->
+            <Button fx:id="btnBuscar" text="🔍 Buscar" onAction="#buscarConcepto"
+                    style="-fx-background-color: #2388e2; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;" />
         </HBox>
 
         <!-- Tabla principal -->
-        <TableView fx:id="tablaConceto"
+        <TableView fx:id="tablaConcepto"
                    prefHeight="500.0"
                    style="-fx-background-color: white; -fx-border-color: #ced4da; -fx-border-radius: 8; -fx-background-radius: 8;">
             <columns>
@@ -45,5 +56,6 @@
                 <TableColumn fx:id="colEstado" text="Estado" prefWidth="120" />
             </columns>
         </TableView>
+
     </VBox>
 </AnchorPane>

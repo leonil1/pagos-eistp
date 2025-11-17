@@ -1,67 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/17.0.12"
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.iestpdj.iestpdjpagos.controller.MetodoPagoController"
-            prefWidth="900" prefHeight="600"
-            style="-fx-background-color: #f4f6f9;">
+            prefHeight="600" prefWidth="900"
+            style="-fx-background-color: #eef2f7;">
 
-    <VBox style="-fx-padding: 15; -fx-background-color: #ecf0f1; -fx-border-radius: 8; -fx-background-radius: 8;">
+    <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"
+          AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
 
-
-        <!-- 🧾 Encabezado -->
-        <HBox alignment="CENTER_LEFT" spacing="10"
-              style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 2);">
-            <Label text="🧾 Gestión de Métodos de Pago"
-                   style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;">
+        <!-- 🔵 ENCABEZADO -->
+        <HBox spacing="12" alignment="CENTER_LEFT"
+              style="-fx-background-color: white; -fx-padding: 20;
+                     -fx-background-radius: 12;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 12, 0, 0, 2);">
+            <Text text="🧾 Gestión de Métodos de Pago"
+                  style="-fx-fill: #2c3e50;">
                 <font>
-                    <Font name="Segoe UI Semibold" size="20"/>
+                    <Font name="Segoe UI Semibold" size="24"/>
                 </font>
-            </Label>
-            <Region HBox.hgrow="ALWAYS" />
+            </Text>
+
+
+
+
+        </HBox>
+
+        <!-- 🔍 BUSCADOR -->
+        <HBox spacing="10" alignment="CENTER_LEFT"
+              style="-fx-background-color: white; -fx-padding: 15;
+                     -fx-background-radius: 12;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 1);">
+
+            <Label text="Buscar:"
+                   style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+
+            <TextField fx:id="txtBuscar"
+                       promptText="Ingrese nombre del método de pago"
+                       style="-fx-pref-width: 280; -fx-background-radius: 10;
+                              -fx-border-radius: 10; -fx-border-color: #d0d7de;"/>
+
+            <Button fx:id="btnBuscar" text="🔍 Buscar" onAction="#buscarMetodoPago"
+                    style="-fx-background-color: #1abc9c; -fx-text-fill: white;
+                           -fx-font-weight: bold; -fx-background-radius: 10;
+                           -fx-padding: 6 18;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <!-- ⭐ TUS BOTONES DE ACCIÓN -->
             <HBox spacing="10">
                 <Button fx:id="btnNuevo" text="➕ Nuevo" onAction="#nuevoMetodoPago"
-                        style="-fx-background-color: linear-gradient(to right, #2ecc71, #27ae60); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 6 18;"/>
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white;
+                               -fx-font-weight: bold; -fx-background-radius: 10;
+                               -fx-padding: 6 18;"/>
+
                 <Button fx:id="btnEditar" text="✏️ Editar" onAction="#editarMetodoPago"
-                        style="-fx-background-color: linear-gradient(to right, #3498db, #2980b9); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 6 18;"/>
-                <Button fx:id="btnEliminar" text="🗑 Eliminar"
-                        style="-fx-background-color: linear-gradient(to right, #e74c3c, #c0392b); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 6 18;"/>
-                <Button fx:id="btnRefrescar" text="🔄 Refrescar"
-                        style="-fx-background-color: linear-gradient(to right, #f1c40f, #f39c12); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 6 18;"/>
+                        style="-fx-background-color: #2980b9; -fx-text-fill: white;
+                               -fx-font-weight: bold; -fx-background-radius: 10;
+                               -fx-padding: 6 18;"/>
+
+                <Button fx:id="btnEliminar" text="🗑 Eliminar" onAction="#eliminarMetodoPago"
+                        style="-fx-background-color: #c0392b; -fx-text-fill: white;
+                               -fx-font-weight: bold; -fx-background-radius: 10;
+                               -fx-padding: 6 18;"/>
+
+                <Button fx:id="btnRefrescar" text="🔄" onAction="#refrescarMetodoPago"
+                        style="-fx-background-color: #f1c40f; -fx-text-fill: white;
+                               -fx-font-weight: bold; -fx-background-radius: 50%;
+                               -fx-min-height: 40; -fx-min-width: 40;"/>
             </HBox>
         </HBox>
 
-        <!-- 🔍 Buscador -->
-        <HBox spacing="10" alignment="CENTER_LEFT"
-              style="-fx-background-color: #ffffff; -fx-padding: 12; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.03), 6, 0, 0, 2);">
-            <Label text="Buscar:"
-                   style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
-            <TextField fx:id="txtBuscar"
-                       promptText="Ingrese nombre del método de pago"
-                       style="-fx-pref-width: 300; -fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #bdc3c7; -fx-focus-color: #3498db;" />
-            <Button fx:id="btnBuscar" text="🔍 Buscar" onAction="#buscarMetodoPago"
-                    style="-fx-background-color: linear-gradient(to right, #16a085, #1abc9c); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 6 18;"/>
-        </HBox>
+        <!-- 📋 TABLA -->
+        <VBox style="-fx-background-color: white; -fx-padding: 15;
+                     -fx-background-radius: 12;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 10, 0, 0, 1);">
 
-        <!-- 📋 Tabla -->
-        <TableView fx:id="tablaMetodoPago"
-                   prefHeight="500.0"
-                   style="-fx-background-color: white; -fx-border-color: #ced4da; -fx-border-radius: 8; -fx-background-radius: 8;">
-            <columns>
-                <TableColumn fx:id="colId" prefWidth="80" text="ID" />
-                <TableColumn fx:id="colNombre" prefWidth="200" text="Nombre" />
-                <TableColumn fx:id="colDescripcion" prefWidth="350" text="Descripción" />
-                <TableColumn fx:id="colEstado" prefWidth="120" text="Estado" />
-            </columns>
-        </TableView>
+            <TableView fx:id="tablaMetodoPago"
+                       prefHeight="500"
+                       style="-fx-background-color: transparent;
+                              -fx-table-cell-border-color: #e6ecf1;
+                              -fx-border-radius: 10;
+                              -fx-background-radius: 10;">
+
+                <columns>
+                    <TableColumn fx:id="colId" prefWidth="80" text="ID"/>
+                    <TableColumn fx:id="colNombre" prefWidth="200" text="Nombre"/>
+                    <TableColumn fx:id="colDescripcion" prefWidth="350" text="Descripción"/>
+                    <TableColumn fx:id="colEstado" prefWidth="120" text="Estado"/>
+                </columns>
+            </TableView>
+        </VBox>
+
     </VBox>
-</AnchorPane>
 
+</AnchorPane>

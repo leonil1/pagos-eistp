@@ -8,25 +8,24 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 
 public class ConceptoPagoController {
 
-    @FXML private TableView<ConceptoPago> tablaConceto;
+    @FXML private TableView<ConceptoPago> tablaConcepto;
     @FXML private TableColumn<ConceptoPago, Integer> colId;
     @FXML private TableColumn<ConceptoPago, String> colNombre;
     @FXML private TableColumn<ConceptoPago, String> colDescripcion;
-    @FXML private TableColumn<ConceptoPago, String> colPrecio;
-    @FXML private TableColumn<ConceptoPago, Boolean> colEstado;
+    @FXML private TableColumn<ConceptoPago, Double> colPrecio;
+    @FXML private TableColumn<String, Boolean> colEstado;
+    @FXML private TextField txtBuscar;
 
     private ConceptoPagoDAO dao = new ConceptoPagoDAO();
 
@@ -38,9 +37,22 @@ public class ConceptoPagoController {
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        colPrecio.setCellFactory(column -> new TableCell<ConceptoPago, Double>() {
+            @Override
+            protected void updateItem(Double precio, boolean empty) {
+                super.updateItem(precio, empty);
+
+                if (empty || precio == null) {
+                    setText(null);
+                } else {
+                    setText("S/ " + String.format("%.2f", precio));
+                }
+            }
+        });
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
 
-        tablaConceto.setItems(lista);
+
+        tablaConcepto.setItems(lista);
         cargarListaPagos();
     }
 
@@ -48,6 +60,21 @@ public class ConceptoPagoController {
         lista.clear();
         List<ConceptoPago> conceptoPagos = dao.ListarConceptoPago();
         lista.addAll(conceptoPagos);
+    }
+
+    @FXML
+    public void buscarConcepto(){
+        String filtro = txtBuscar.getText().trim().toLowerCase();
+
+        if (filtro.isEmpty()){
+            tablaConcepto.setItems(lista);
+            mostrarAlerta(Alert.AlertType.INFORMATION,"Busqueda", "No se encontraron coincidencias.");
+            return;
+        }
+        ObservableList<ConceptoPago> filtados = lista.filtered(
+                c -> c.getDescripcion().toLowerCase().contains(filtro)
+                        || c.getNombre().toLowerCase().contains(filtro)
+        );tablaConcepto.setItems(filtados);
     }
 
     @FXML
@@ -67,9 +94,9 @@ public class ConceptoPagoController {
 
     @FXML
     private void editarConceptoPago() {
-        ConceptoPago seleccionado = tablaConceto.getSelectionModel().getSelectedItem();
+        ConceptoPago seleccionado = tablaConcepto.getSelectionModel().getSelectedItem();
         if (seleccionado == null) {
-            mostrarAlerta("Seleccionar", "Debe seleccionar un concepto para editar.", Alert.AlertType.WARNING);
+            mostrarAlerta(Alert.AlertType.WARNING, "Seleccionar", "Debe seleccionar un concepto para editar.");
             return;
         }
 
@@ -95,7 +122,45 @@ public class ConceptoPagoController {
         }
     }
 
-    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
+    @FXML
+    private void eliminarConcepto(){
+        ConceptoPago seleccionado = tablaConcepto.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            mostrarAlerta( Alert.AlertType.WARNING,"Selecciona concepto pago", "Selecciona un comcepto de pago");
+            return;
+        }
+        Alert confirmar = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmar.setTitle("Eliminar Concepto de Pago");
+        confirmar.setHeaderText("¿Eliminar Concepto pago?");
+        confirmar.setContentText(
+                "Concepto Pago: " + seleccionado.getNombre() + " " );
+        Optional<ButtonType> result = confirmar.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                boolean ok = dao.EliminarConceptoPago(seleccionado.getId_concepto());
+                if (ok) {
+                    mostrarAlerta(Alert.AlertType.INFORMATION, "Eliminar","Concepto pago Eliminado exitoso!");
+                    cargarListaPagos();
+                }else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Eliminar", "Error al eliminar el Concepto de pago");
+                }
+            } catch (Exception ex){
+                ex.printStackTrace();
+                mostrarAlerta(Alert.AlertType.ERROR, "Error" ,"Ocurrio un erro: " + ex.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    private void refrescar(){
+        javafx.application.Platform.runLater(() -> {
+            cargarListaPagos();
+            tablaConcepto.getSelectionModel().clearSelection();
+            tablaConcepto.refresh();
+        });
+    }
+
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);

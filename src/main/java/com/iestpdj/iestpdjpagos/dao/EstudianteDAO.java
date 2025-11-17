@@ -21,16 +21,17 @@ public class EstudianteDAO implements IAlumnoDAO{
 
     @Override
     public boolean CreateAlumno(Estudiante alumno) {
-        String sql = "INSERT INTO estudiante (dni, nombre, apellido_paterno, apellido_materno, email, telefono, activo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO estudiante (dni, nombre, apellido_paterno, apellido_materno, direccion, email, telefono, activo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, alumno.getDni());
             pstmt.setString(2, alumno.getNombre());
             pstmt.setString(3, alumno.getApellido_paterno());
             pstmt.setString(4, alumno.getApellido_materno());
-            pstmt.setString(5, alumno.getEmail());
-            pstmt.setString(6, alumno.getTelefono());
-            pstmt.setBoolean(7, alumno.isActivo());
+            pstmt.setString(5, alumno.getDireccion());
+            pstmt.setString(6, alumno.getEmail());
+            pstmt.setString(7, alumno.getTelefono());
+            pstmt.setBoolean(8, alumno.isActivo());
 
             int filas = pstmt.executeUpdate();
             return filas > 0;
@@ -74,10 +75,25 @@ public class EstudianteDAO implements IAlumnoDAO{
 
         List<Estudiante> lista = new ArrayList<>();
 
-        String sql = "SELECT id, dni, nombre, apellido_paterno, apellido_materno, direccion, email, telefono, activo FROM estudiante WHERE activo = 1";
+        String sql = """
+        SELECT 
+               id,
+                   dni,
+                   nombre,
+                   apellido_paterno,
+                   apellido_materno,
+                   direccion,
+                   email,
+                   telefono,
+                   activo
+        FROM estudiante
+        WHERE activo = 1
+        ORDER BY apellido_paterno, apellido_materno, nombre
+        """;
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            ResultSet rs = pstmt.executeQuery();
+        try (PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
             while (rs.next()) {
                 Estudiante alumno = new Estudiante();
                 alumno.setId(rs.getLong("id"));
@@ -87,19 +103,22 @@ public class EstudianteDAO implements IAlumnoDAO{
                 alumno.setApellido_materno(rs.getString("apellido_materno"));
                 alumno.setEmail(rs.getString("email"));
                 alumno.setDireccion(rs.getString("direccion"));
+                alumno.setEmail(rs.getString("email"));
                 alumno.setTelefono(rs.getString("telefono"));
                 alumno.setActivo(rs.getBoolean("activo"));
                 lista.add(alumno);
             }
+
         } catch (SQLException e) {
-            System.out.println("Error al obtener alumnos: " + e.getMessage());
+            System.err.println("❌ Error al obtener alumnos: " + e.getMessage());
         }
+
         return lista;
     }
 
     @Override
     public Boolean ActualizarAlumno(Estudiante alumno) {
-        String sql = "UPDATE estudiante SET dni=?, nombre=?, apellido_paterno=?, apellido_materno=?, direccion=?,  email=?, telefono=?, activo=? WHERE id=? ";
+        String sql = "UPDATE estudiante SET dni=?, nombre=?, apellido_paterno=?, apellido_materno=?, direccion=?, email=?, telefono=?, activo=? WHERE id=?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, alumno.getDni());
             pstmt.setString(2, alumno.getNombre());
@@ -109,25 +128,26 @@ public class EstudianteDAO implements IAlumnoDAO{
             pstmt.setString(6, alumno.getEmail());
             pstmt.setString(7, alumno.getTelefono());
             pstmt.setBoolean(8, alumno.isActivo());
+            pstmt.setLong(9, alumno.getId());
 
             int filas = pstmt.executeUpdate();
             return filas > 0;
 
         } catch (SQLException ex) {
-            System.err.println("Error al actualizar usuario: " + ex.getMessage());
+            System.err.println("Error al actualizar estudiante: " + ex.getMessage());
             return false;
         }
     }
 
     @Override
     public Boolean EliminarAlumno(Long id) {
-        String sql = "DELETE FROM alumno WHERE id = ?";
+        String sql = "DELETE FROM estudiante WHERE id = ?";
         try(PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, id);
             int filas = pstmt.executeUpdate();
             return filas > 0;
         } catch (SQLException ex) {
-            System.err.println("Error al eliminar usuario: " + ex.getMessage());
+            System.err.println("Error al eliminar Estudiante: " + ex.getMessage());
             return false;
         }
     }

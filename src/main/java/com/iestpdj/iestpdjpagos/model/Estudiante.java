@@ -15,6 +15,7 @@ public class Estudiante {
     private boolean activo;
     private LocalDateTime fecha_creacion;
     private LocalDateTime fecha_modificacion;
+    private String nombreCompleto;
 
     public Estudiante() {
         super();

@@ -45,6 +45,11 @@ public class DashbordController1 {
     }
 
     @FXML
+    private void mostrarReportes(){
+        cargarVista("/vistasFX/reporte_pagos.fxml");
+    }
+
+    @FXML
     private void cerrarSesion() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Cerrar Sesión");

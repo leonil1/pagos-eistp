@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,10 +16,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class EstudianteController {
+public class EstudianteController implements Initializable {
 
 
     @FXML
@@ -27,6 +30,8 @@ public class EstudianteController {
     private TableColumn<Estudiante, Integer> colId;
     @FXML
     private TableColumn<Estudiante, Integer> colDni;
+    @FXML
+    private TableColumn<Estudiante, String> colNombreCompleto;
     @FXML
     private TableColumn<Estudiante, String> colNombre;
     @FXML
@@ -42,11 +47,11 @@ public class EstudianteController {
     @FXML
     private TableColumn<Estudiante, Boolean> colActivo;
 
+
     private EstudianteDAO dao = new EstudianteDAO();
 
     private ObservableList<Estudiante> lista = FXCollections.observableArrayList();
 
-    private boolean maximizado = false;
 
     @FXML
     private TextField txtBuscar;
@@ -68,7 +73,8 @@ public class EstudianteController {
     }
 
     @FXML
-    void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDni.setCellValueFactory(new PropertyValueFactory<>("dni"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -78,6 +84,27 @@ public class EstudianteController {
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         colActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));
+
+        colActivo.setCellFactory(column -> new TableCell<Estudiante, Boolean>() {
+            @Override
+            protected void updateItem(Boolean activo, boolean empty) {
+                super.updateItem(activo, empty);
+
+                if (empty || activo == null) {
+                    setText(null);
+                    setStyle("");
+                    return;
+                }
+
+                if (activo) {
+                    setText("ACTIVO");
+                    setStyle("-fx-text-fill: #16a34a; -fx-font-weight: bold; -fx-alignment: CENTER;");
+                } else {
+                    setText("INACTIVO");
+                    setStyle("-fx-text-fill: #dc2626; -fx-font-weight: bold; -fx-alignment: CENTER;");
+                }
+            }
+        });
 
         tableAlumnos.setItems(lista);
         cargarEstudiante();
@@ -172,14 +199,4 @@ public class EstudianteController {
         alerta.showAndWait();
     }
 
-    public void maximizarVentana(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setMaximized(!maximizado);
-        maximizado = !maximizado;
-    }
-
-    public void cerrarVentana(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
-    }
 }

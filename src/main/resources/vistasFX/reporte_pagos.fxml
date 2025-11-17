@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.iestpdj.iestpdjpagos.controller.ReportePagosController"
+            prefWidth="1150" prefHeight="600"
+            style="-fx-background-color: #f5f6fa;">
+
+    <top>
+        <VBox spacing="15">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="Reporte de Pagos"
+                   style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2d3436;"/>
+
+            <!-- HORIZONTAL -->
+            <HBox spacing="25" alignment="CENTER_LEFT">
+
+                <!-- Buscar por Día -->
+                <VBox spacing="5"
+                      style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
+                    <Label text="Buscar por Día"
+                           style="-fx-font-weight: bold; -fx-text-fill: #2d3436;"/>
+                    <DatePicker fx:id="fechaDia"/>
+                    <Button text="Buscar Día" onAction="#buscarPorDia"
+                            style="-fx-background-color: #0984e3; -fx-text-fill: white; -fx-background-radius: 6;"/>
+                </VBox>
+
+                <!-- Buscar por Rango -->
+                <VBox spacing="5"
+                      style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
+
+                    <Label text="Buscar por Rango"
+                           style="-fx-font-weight: bold; -fx-text-fill: #2d3436;"/>
+
+                    <HBox spacing="10">
+                        <VBox spacing="5">
+                            <Label text="Inicio"/>
+                            <DatePicker fx:id="fechaInicio"/>
+                        </VBox>
+
+                        <VBox spacing="5">
+                            <Label text="Fin"/>
+                            <DatePicker fx:id="fechaFin"/>
+                        </VBox>
+                    </HBox>
+
+                    <Button text="Buscar Rango" onAction="#buscarPorRango"
+                            style="-fx-background-color: #6c5ce7; -fx-text-fill: white; -fx-background-radius: 6;"/>
+                </VBox>
+
+                <!-- Exportar -->
+                <VBox spacing="8"
+                      style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
+                    <Label text="Exportar"
+                           style="-fx-font-weight: bold;"/>
+                    <Button text="📄 PDF" onAction="#exportarPDF"
+                            style="-fx-background-color: #d63031; -fx-text-fill: white; -fx-background-radius: 6;"/>
+                    <Button text="📊 Excel" onAction="#exportarExcel"
+                            style="-fx-background-color: #00cec9; -fx-text-fill: white; -fx-background-radius: 6;"/>
+                </VBox>
+
+                <!-- Total -->
+                <VBox spacing="5"
+                      style="-fx-background-color: #00b894; -fx-padding: 15; -fx-background-radius: 10;">
+                    <Label text="Total del Día:"
+                           style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+                    <Label fx:id="lblTotalDia" text="S/ 0.00"
+                           style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;"/>
+                </VBox>
+
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- TABLA -->
+    <center>
+        <TableView fx:id="tablaPagos" style="-fx-background-color: white;">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                <TableColumn fx:id="colEstudiante" text="Estudiante" prefWidth="220"/>
+                <TableColumn fx:id="colMonto" text="Monto" prefWidth="120"/>
+                <TableColumn fx:id="colFecha" text="Fecha Pago" prefWidth="160"/>
+                <TableColumn fx:id="colEstado" text="Estado" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>

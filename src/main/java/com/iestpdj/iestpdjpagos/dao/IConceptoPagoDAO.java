@@ -6,9 +6,9 @@ import com.iestpdj.iestpdjpagos.model.ConceptoPago;
 import java.util.List;
 
 public interface IConceptoPagoDAO {
-    boolean CreateConceptoPago(Estudiante alumno);
+    boolean CreateConceptoPago(ConceptoPago conceptoPago);
     ConceptoPago buscarConceptoPago(String dni);
     List<ConceptoPago> ListarConceptoPago();
-    Boolean ActualizarConceptoPago(ConceptoPago alumno);
-    Boolean EliminarConceptoPago(Long id);
+    Boolean ActualizarConceptoPago(ConceptoPago conceptoPago);
+    Boolean EliminarConceptoPago(int id);
 }

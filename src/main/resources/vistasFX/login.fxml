@@ -1,51 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.Image?>
 
-<AnchorPane prefHeight="497.0" prefWidth="446.0" xmlns="http://javafx.com/javafx/17.0.12"
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.iestpdj.iestpdjpagos.controller.LoginController">
+            fx:controller="com.iestpdj.iestpdjpagos.controller.LoginController"
+            prefWidth="500" prefHeight="560"
+           >
+
+    <!-- Fondo -->
     <children>
+        <Pane prefWidth="500" prefHeight="560" styleClass="background"/>
 
-        <!-- Imagen del logo -->
-        <ImageView layoutX="170.0" layoutY="40.0" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-<!--                <Image url="@/img/logo_istp.png" />-->
-            </image>
-        </ImageView>
+        <!-- CARD DEL LOGIN -->
+        <VBox alignment="TOP_CENTER" spacing="15"
+              layoutX="100" layoutY="60"
+              prefWidth="300" prefHeight="430"
+              styleClass="login-card">
 
-        <Label layoutX="119.0" layoutY="169.0" prefHeight="42.0" prefWidth="211.0" text="Login iestp-dj">
-            <font>
-                <Font name="System Bold" size="30.0" />
-            </font>
-        </Label>
+            <!-- LOGO -->
+            <ImageView fitWidth="110" preserveRatio="true">
+                <image>
+                    <Image url="@img/logo_istp.png"/>
+                </image>
+            </ImageView>
 
-        <Label layoutX="106.0" layoutY="215.0" prefHeight="18.0" prefWidth="156.0" text="Usuario :">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
+            <!-- TÍTULO -->
+            <Label text="IESTP-DJ" styleClass="title"/>
 
-        <Label layoutX="106.0" layoutY="282.0" text="Contraseña :">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
+            <!-- SUBTÍTULO -->
+            <Label text="Iniciar Sesión" styleClass="subtitle"/>
 
-        <TextField fx:id="textUsuario" layoutX="106.0" layoutY="241.0" prefHeight="42.0" prefWidth="249.0">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </TextField>
+            <!-- CAMPOS -->
+            <VBox spacing="8" prefWidth="260">
+                <Label text="Usuario" styleClass="label"/>
+                <TextField fx:id="textUsuario" prefHeight="38" styleClass="input"/>
 
-        <PasswordField fx:id="textContrasenia" layoutX="103.0" layoutY="309.0" prefHeight="42.0" prefWidth="256.0" />
+                <Label text="Contraseña" styleClass="label" />
+                <PasswordField fx:id="textContrasenia" prefHeight="38" styleClass="input"/>
+            </VBox>
 
-        <Button fx:id="btnLogin" layoutX="99.0" layoutY="361.0" mnemonicParsing="false"
-                onAction="#handleLogin" prefHeight="35.0" prefWidth="263.0" text="Iniciar Sesión" />
-
+            <!-- BOTÓN LOGIN -->
+            <Button text="Iniciar Sesión"
+                    fx:id="btnLogin"
+                    onAction="#handleLogin"
+                    prefHeight="40"
+                    prefWidth="250"
+                    styleClass="login-button"/>
+        </VBox>
     </children>
+
 </AnchorPane>

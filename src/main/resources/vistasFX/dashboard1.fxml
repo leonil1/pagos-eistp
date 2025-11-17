@@ -50,6 +50,10 @@
                     onAction="#mostrarMetodoPago"
                     styleClass="menu-button"/>
 
+            <Button fx:id="btnReportesPago" text="💳 Reportes"
+                    onAction="#mostrarReportes"
+                    styleClass="menu-button"/>
+
             <Separator prefWidth="180" style="-fx-background-color: #ffffff33;" />
 
             <Button fx:id="btnSalir" text="🚪 Cerrar Sesión"

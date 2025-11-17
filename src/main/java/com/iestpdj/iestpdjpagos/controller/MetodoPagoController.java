@@ -8,15 +8,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MetodoPagoController {
     @FXML private TableView<MetodoPago> tablaMetodoPago;
@@ -28,6 +26,7 @@ public class MetodoPagoController {
     @FXML private TextField txtBuscar;
 
     private MetodoPagoDAO dao = new MetodoPagoDAO();
+
     private ObservableList<MetodoPago> lista = FXCollections.observableArrayList();
 
     @FXML
@@ -36,6 +35,28 @@ public class MetodoPagoController {
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("activo"));
+        colEstado.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Boolean activo, boolean empty) {
+                super.updateItem(activo, empty);
+
+                if (empty || activo == null) {
+                    setText(null);
+                    setStyle("");
+                    return;
+                }
+
+                String texto = activo ? "ACTIVO" : "INACTIVO";
+                setText(texto);
+
+                if (activo) {
+                    setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;"); // Verde
+                } else {
+                    setStyle("-fx-text-fill: #c0392b; -fx-font-weight: bold;"); // Rojo
+                }
+            }
+        });
+
         tablaMetodoPago.setItems(lista);
         cargarMetodoPago();
     }
@@ -99,6 +120,41 @@ public class MetodoPagoController {
             mostrarAlerta(Alert.AlertType.ERROR, "Error", "Error Al Abrir el Metodo pago");
         }
     }
+
+    @FXML
+    private void eliminarMetodoPago(){
+        MetodoPago metodo = tablaMetodoPago.getSelectionModel().getSelectedItem();
+        if (metodo == null){
+            mostrarAlerta(Alert.AlertType.WARNING, "Seleccionar Metodo PAgo","Seleccionar un Meto de Pago");
+            return;
+        }
+        Alert confirmar = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmar.setTitle("Confirmar Eliminación");
+        confirmar.setHeaderText("¿Eliminar Meto Pago?");
+        confirmar.setContentText("Estudiante: " + metodo.getNombre());
+        Optional<ButtonType> result = confirmar.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            try {
+                boolean ok = dao.EliminarMetodoPago(metodo.getId_metodo());
+                if (ok){
+                    mostrarAlerta(Alert.AlertType.INFORMATION, "Eliminado", "Estudiante eliminado exitosamente.");
+                    cargarMetodoPago();
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se puede eliminar estudiante.");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "Ocurrio un Error: " + ex.getMessage());
+
+            }
+        }
+    }
+
+    @FXML
+    private void refrescarMetodoPago(){
+
+    }
+
 
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alerta = new Alert(tipo);

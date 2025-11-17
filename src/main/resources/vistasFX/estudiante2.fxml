@@ -7,50 +7,64 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/17.0.12"
             fx:controller="com.iestpdj.iestpdjpagos.controller.EstudianteController"
-            style="-fx-background-color: #f5f6fa;">
+            style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e2e8f0);">
 
-    <VBox style="-fx-padding: 15; -fx-background-color: #ecf0f1; -fx-border-radius: 8; -fx-background-radius: 8;">
+    <VBox spacing="15" prefWidth="1000" AnchorPane.topAnchor="15" AnchorPane.bottomAnchor="15"
+          AnchorPane.leftAnchor="15" AnchorPane.rightAnchor="15">
 
-        <!-- 🔸 Título y botones -->
+        <!-- 🔹 ENCABEZADO -->
         <HBox alignment="CENTER_LEFT" spacing="10">
-            <Label text="Listado de Estudiantes"
-                   style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
-            <Region HBox.hgrow="ALWAYS" />
+            <Label text="👨‍🎓 Gestión de Estudiantes"
+                   style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+            <Region HBox.hgrow="ALWAYS"/>
             <Button fx:id="nuevoEstudiante" text="➕ Nuevo" onAction="#nuevoEstudiante"
-                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+                    style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;
+                           -fx-background-radius: 6; -fx-cursor: hand; -fx-padding: 6 14;" />
             <Button fx:id="btnEditar" text="✏️ Editar" onAction="#editarEstudiante"
-                    style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
-            <Button fx:id="btnEliminar" text="🗑 Eliminar"
-                    style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+                    style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold;
+                           -fx-background-radius: 6; -fx-cursor: hand; -fx-padding: 6 14;" />
+            <Button fx:id="btnEliminar" text="🗑 Eliminar" onAction="#eliminarEstudiante"
+                    style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;
+                           -fx-background-radius: 6; -fx-cursor: hand; -fx-padding: 6 14;" />
             <Button fx:id="btnRefrescar" text="🔄 Refrescar"
-                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+                    style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-font-weight: bold;
+                           -fx-background-radius: 6; -fx-cursor: hand; -fx-padding: 6 14;" />
         </HBox>
 
-        <!-- 🔍 Campo de búsqueda -->
-        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10 0 10 0;">
-            <Label text="Buscar:" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+        <!-- 🔍 BUSCADOR -->
+        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: #f1f5f9; -fx-padding: 12; -fx-background-radius: 6;">
+            <Label text="Buscar:" style="-fx-font-weight: bold; -fx-text-fill: #334155; -fx-font-size: 14;" />
             <TextField fx:id="txtBuscar" promptText="Ingrese nombre o DNI..."
-                       style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-pref-width: 300;" />
+                       style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #cbd5e1;
+                              -fx-pref-width: 300; -fx-padding: 6;" />
             <Button fx:id="btnBuscar" text="🔍 Buscar" onAction="#buscarEstudiante"
-                    style="-fx-background-color: #16a085; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" />
+                    style="-fx-background-color: #06b6d4; -fx-text-fill: white; -fx-font-weight: bold;
+                           -fx-background-radius: 6; -fx-cursor: hand; -fx-padding: 6 14;" />
         </HBox>
 
-        <!-- 🔸 Tabla -->
+        <!-- 🔸 TABLA DE ESTUDIANTES -->
         <TableView fx:id="tableAlumnos" prefHeight="600"
-                   style="-fx-background-color: white; -fx-border-radius: 8; -fx-background-radius: 8;">
+                   style="-fx-background-color: white; -fx-border-color: #e2e8f0;
+                          -fx-border-radius: 8; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);">
+
             <columns>
                 <TableColumn fx:id="colId" prefWidth="60" text="ID" />
                 <TableColumn fx:id="colDni" prefWidth="100" text="DNI" />
                 <TableColumn fx:id="colNombre" prefWidth="160" text="Nombres" />
-                <TableColumn fx:id="colApellidoPaterno" prefWidth="160" text="Apellido Paterno" />
-                <TableColumn fx:id="colApellidoMaterno" prefWidth="160" text="Apellido Materno" />
+                <TableColumn fx:id="colApellidoPaterno" prefWidth="120" text="Apellido Paterno" />
+                <TableColumn fx:id="colApellidoMaterno" prefWidth="120" text="Apellido Materno" />
                 <TableColumn fx:id="colDireccion" prefWidth="180" text="Dirección" />
                 <TableColumn fx:id="colEmail" prefWidth="180" text="Email" />
                 <TableColumn fx:id="colTelefono" prefWidth="120" text="Teléfono" />
                 <TableColumn fx:id="colActivo" prefWidth="100" text="Estado" />
-                <TableColumn fx:id="colFecha" prefWidth="180" text="Fecha Registro" />
             </columns>
         </TableView>
+
+
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10;">
+            <Label text="© 2025 IESTP DJ - Sistema de Pagos"
+                   style="-fx-font-size: 12; -fx-text-fill: #94a3b8;" />
+        </HBox>
 
     </VBox>
 </AnchorPane>

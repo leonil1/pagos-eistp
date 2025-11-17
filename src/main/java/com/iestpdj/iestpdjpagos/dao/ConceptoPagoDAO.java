@@ -3,6 +3,8 @@ package com.iestpdj.iestpdjpagos.dao;
 import com.iestpdj.iestpdjpagos.model.Estudiante;
 import com.iestpdj.iestpdjpagos.model.ConceptoPago;
 import com.iestpdj.iestpdjpagos.utils.DatabaseConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +15,8 @@ import java.util.List;
 
 public class ConceptoPagoDAO implements IConceptoPagoDAO {
 
+    private static final Logger log = LoggerFactory.getLogger(IConceptoPagoDAO.class);
+
     private Connection connection;
 
     public ConceptoPagoDAO() {
@@ -20,8 +24,19 @@ public class ConceptoPagoDAO implements IConceptoPagoDAO {
     }
 
     @Override
-    public boolean CreateConceptoPago(Estudiante alumno) {
-        return false;
+    public boolean CreateConceptoPago(ConceptoPago conceptoPago) {
+        String sql = "INSERT INTO concepto_pago (nombre, descripcion, precio, estado) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)){
+            pstmt.setString(1, conceptoPago.getNombre());
+            pstmt.setString(2, conceptoPago.getDescripcion());
+            pstmt.setDouble(3, conceptoPago.getPrecio());
+            pstmt.setString(4, conceptoPago.getEstado());
+            int filas = pstmt.executeUpdate();
+            return (filas > 0);
+        } catch (SQLException e) {
+            log.error("Error al crear Metodo de pago {}", e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -55,12 +70,33 @@ public class ConceptoPagoDAO implements IConceptoPagoDAO {
     }
 
     @Override
-    public Boolean ActualizarConceptoPago(ConceptoPago alumno) {
-        return null;
+    public Boolean ActualizarConceptoPago(ConceptoPago conceptoPago) {
+        String sql = "UPDATE concepto_pago SET nombre=?, descripcion=?, precio=?,estado=? WHERE id_concepto=?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, conceptoPago.getNombre());
+            pstmt.setString(2, conceptoPago.getDescripcion());
+            pstmt.setDouble(3, conceptoPago.getPrecio());
+            pstmt.setString(4, conceptoPago.getEstado());
+            pstmt.setInt(5, conceptoPago.getId_concepto());
+            int filas = pstmt.executeUpdate();
+            return (filas > 0);
+        } catch (SQLException e){
+            log.error("Error al actualizar concepto de pago {}", e.getMessage());
+            return false;
+        }
+
     }
 
     @Override
-    public Boolean EliminarConceptoPago(Long id) {
-        return null;
+    public Boolean EliminarConceptoPago(int id) {
+        String sql = "DELETE FROM concepto_pago WHERE id_concepto=?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setLong(1, id);
+            int filas = pstmt.executeUpdate();
+            return (filas > 0);
+        } catch (SQLException e){
+            log.error("Error al eliminar concepto de pago {}", e.getMessage());
+            return  false;
+        }
     }
 }

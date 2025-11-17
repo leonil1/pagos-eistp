@@ -1,85 +1,110 @@
 package com.iestpdj.iestpdjpagos.utils;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import com.iestpdj.iestpdjpagos.model.PagoReporte;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.nio.file.Path;
+import java.io.File;
+import java.text.DecimalFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class PdfGenerator {
 
-    public static class Item {
-        public String nombreConcepto;
-        public int cantidad;
-        public BigDecimal precioUnitario;
-        public BigDecimal subtotal;
-        public Item(String n, int c, BigDecimal p, BigDecimal s){
-            this.nombreConcepto=n; this.cantidad=c; this.precioUnitario=p; this.subtotal=s;
-        }
-    }
+    private final DateTimeFormatter formatterFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private final DecimalFormat formatterMonto = new DecimalFormat("S/ 0.00");
 
-    public static void generateBoletaPdf(String numeroBoleta, String estudianteNombre,
-                                         List<Item> items, BigDecimal total, Path outputFile) throws IOException, IOException {
-        try (PDDocument doc = new PDDocument()) {
-            PDPage page = new PDPage();
-            doc.addPage(page);
+    public void generarPDF(List<PagoReporte> pagos, String rutaSalida, String rutaLogo) {
+        try {
+            PdfWriter writer = new PdfWriter(rutaSalida);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
 
-            try (PDPageContentStream cs = new PDPageContentStream(doc, page)) {
-                cs.beginText();
-                cs.setFont(PDType1Font.HELVETICA_BOLD, 14);
-                cs.newLineAtOffset(50, 750);
-                cs.showText("Boleta: " + numeroBoleta);
-                cs.endText();
-
-                cs.beginText();
-                cs.setFont(PDType1Font.HELVETICA, 12);
-                cs.newLineAtOffset(50, 730);
-                cs.showText("Estudiante: " + estudianteNombre);
-                cs.endText();
-
-                // encabezado tabla
-                float y = 700;
-                cs.setFont(PDType1Font.HELVETICA_BOLD, 11);
-                cs.beginText();
-                cs.newLineAtOffset(50, y);
-                cs.showText("Concepto");
-                cs.newLineAtOffset(250, 0);
-                cs.showText("Cant.");
-                cs.newLineAtOffset(60, 0);
-                cs.showText("P.unit");
-                cs.newLineAtOffset(80, 0);
-                cs.showText("Subtotal");
-                cs.endText();
-
-                y -= 20;
-                cs.setFont(PDType1Font.HELVETICA, 11);
-                for (Item it : items) {
-                    cs.beginText();
-                    cs.newLineAtOffset(50, y);
-                    cs.showText(it.nombreConcepto);
-                    cs.newLineAtOffset(250, 0);
-                    cs.showText(String.valueOf(it.cantidad));
-                    cs.newLineAtOffset(60, 0);
-                    cs.showText(it.precioUnitario.toString());
-                    cs.newLineAtOffset(80, 0);
-                    cs.showText(it.subtotal.toString());
-                    cs.endText();
-                    y -= 18;
+            /** LOGO **/
+            if (rutaLogo != null) {
+                File f = new File(rutaLogo);
+                if (f.exists()) {
+                    Image logo = new Image(ImageDataFactory.create(rutaLogo));
+                    logo.setHeight(50);
+                    logo.setAutoScale(true);
+                    document.add(logo);
                 }
-
-                // total
-                cs.beginText();
-                cs.setFont(PDType1Font.HELVETICA_BOLD, 12);
-                cs.newLineAtOffset(50, y - 20);
-                cs.showText("Total: " + total.toString());
-                cs.endText();
             }
 
-            doc.save(outputFile.toFile());
+            /** TÍTULO **/
+            document.add(new Paragraph("Reporte de Pagos")
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setBold()
+                    .setFontSize(16));
+
+            /** TABLA **/
+            float[] columnWidths = {60, 220, 80, 80, 70};
+            Table table = new Table(columnWidths);
+            table.setWidth(UnitValue.createPercentValue(100));
+
+            // ENCABEZADOS
+            table.addHeaderCell(new Cell().add(new Paragraph("ID").setBold()));
+            table.addHeaderCell(new Cell().add(new Paragraph("Estudiante").setBold()));
+            table.addHeaderCell(new Cell().add(new Paragraph("Monto").setBold()));
+            table.addHeaderCell(new Cell().add(new Paragraph("Fecha").setBold()));
+            table.addHeaderCell(new Cell().add(new Paragraph("Estado").setBold()));
+
+            double total = 0.0;
+
+            // FILAS
+            for (PagoReporte p : pagos) {
+
+                table.addCell(String.valueOf(p.getId()));
+                table.addCell(p.getEstudiante());
+
+                String montoFormateado = formatterMonto.format(p.getMonto());
+                table.addCell(montoFormateado);
+
+                String fechaFormateada = p.getFechaPago()
+                        .toLocalDate()
+                        .format(formatterFecha);
+                table.addCell(fechaFormateada);
+
+                table.addCell(p.getEstado());
+
+                // SUMAR
+                total += p.getMonto();
+            }
+
+            /** FILA DE TOTAL **/
+            Cell totalCellLabel = new Cell(1, 2)
+                    .add(new Paragraph("TOTAL"))
+                    .setBold()
+                    .setTextAlignment(TextAlignment.RIGHT);
+
+            Cell totalCellMonto = new Cell(1, 1)
+                    .add(new Paragraph(formatterMonto.format(total)))
+                    .setBold();
+
+            // Unir columnas necesarias
+            table.addCell(totalCellLabel);
+            table.addCell(totalCellMonto);
+
+            // Celdas vacías para completar (fecha, estado)
+            table.addCell(new Cell().add(new Paragraph("")));
+            table.addCell(new Cell().add(new Paragraph("")));
+
+            document.add(table);
+
+            document.close();
+
+            System.out.println("PDF generado en: " + rutaSalida);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }
