@@ -91,6 +91,7 @@ public class MetodoPagoController {
         MetodoPago metodoPago = tablaMetodoPago.getSelectionModel().getSelectedItem();
         if (metodoPago == null){
             mostrarAlerta(Alert.AlertType.WARNING, "Selecionar Metodo Pago", "Seleccione un metodo pago");
+            return;
         }
         abrirFormulario(metodoPago);
     }

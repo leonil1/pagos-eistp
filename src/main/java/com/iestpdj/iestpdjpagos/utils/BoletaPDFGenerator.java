@@ -2,6 +2,7 @@ package com.iestpdj.iestpdjpagos.utils;
 
 import com.iestpdj.iestpdjpagos.model.DatosBoleta;
 import com.iestpdj.iestpdjpagos.model.DetalleBoletaInfo;
+import com.iestpdj.iestpdjpagos.model.NumeroALetras;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.colors.DeviceRgb;
@@ -165,8 +166,8 @@ public class BoletaPDFGenerator {
                 .setWidth(UnitValue.createPercentValue(100));
 
         datosPago.addCell(celda("FECHA:", sdf.format(datos.getFechaEmision()), true));
-        datosPago.addCell(celda("CAJERO:", datos.getCajero(), true));
-        datosPago.addCell(celda("RECIBÍ DE:", datos.getNombreEstudiante() + " - DNI: " + datos.getDniEstudiante(), false));
+        //datosPago.addCell(celda("CAJERO:", datos.getCajero(), true));
+        datosPago.addCell(celda("RECIBÍ DE:", datos.getNombreEstudiante(), false));
         datosPago.addCell(celda("MÉTODO DE PAGO:", datos.getMetodoPago(), false));
 
         document.add(datosPago);
@@ -228,6 +229,8 @@ public class BoletaPDFGenerator {
 
     // ================= TOTAL =================
     private static void agregarTotal(Document document, double total) {
+
+        // ==== Tabla original del total ====
         Table totales = new Table(UnitValue.createPercentArray(new float[]{80, 20}))
                 .setWidth(UnitValue.createPercentValue(100));
 
@@ -249,18 +252,39 @@ public class BoletaPDFGenerator {
                 .setPadding(6));
 
         document.add(totales);
+
+        // ==== NUEVO: TOTAL EN LETRAS ====
+        String montoLetras = convertirNumeroALetras(total);
+        document.add(new Paragraph("SON: " + montoLetras)
+                .setFontSize(9)
+                .setItalic()
+                .setMarginTop(5));
+
         document.add(new Paragraph("\n"));
+    }
+
+    // ================= CONVERTIR NÚMERO A LETRAS =================
+    private static String convertirNumeroALetras(double monto) {
+        long parteEntera = (long) monto;
+        int decimales = (int) Math.round((monto - parteEntera) * 100);
+
+        return NumeroALetras.convertir(parteEntera) + " CON " +
+                String.format("%02d", decimales) + "/100 SOLES";
     }
 
     // ================= PIE DE PÁGINA =================
     private static void agregarPiePagina(Document document) {
+        document.add(new Paragraph("\n\n\n")); // <-- MÁS ESPACIO ANTES DEL PIE
+
         document.add(new LineSeparator(new com.itextpdf.kernel.pdf.canvas.draw.SolidLine()));
+
         document.add(new Paragraph("TESORERÍA - IESTP “DIVINO JESÚS”")
                 .setFontSize(10)
                 .setBold()
                 .setTextAlignment(TextAlignment.CENTER)
-                .setMarginTop(8)
+                .setMarginTop(12)  // <-- MÁS ABAJO
                 .setFontColor(COLOR_AZUL));
+
         document.add(new Paragraph("Conserve esta boleta como comprobante de pago oficial.")
                 .setFontSize(8)
                 .setItalic()

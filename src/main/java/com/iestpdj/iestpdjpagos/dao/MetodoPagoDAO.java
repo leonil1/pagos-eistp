@@ -63,15 +63,19 @@ public class MetodoPagoDAO implements IMetodoPagoDAO{
     @Override
     public Boolean ActualizarMetodoPago(MetodoPago metodoPago) {
         String sql = "UPDATE metodo_pago SET nombre=?, descripcion=?, activo=? WHERE id_metodo=?";
+
         try (PreparedStatement ps = this.connection.prepareStatement(sql)) {
+
             ps.setString(1, metodoPago.getNombre());
             ps.setString(2, metodoPago.getDescripcion());
             ps.setBoolean(3, metodoPago.isActivo());
+            ps.setLong(4, metodoPago.getId_metodo()); // <-- FALTABA ESTO
+
             int filas = ps.executeUpdate();
             return filas > 0;
 
         } catch (SQLException ex){
-            System.out.println("Error alActualizar el Metodo pago");
+            System.out.println("Error al Actualizar el Metodo pago: " + ex.getMessage());
             return false;
         }
     }
