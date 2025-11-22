@@ -2,14 +2,14 @@ package com.iestpdj.iestpdjpagos.controller;
 
 import com.iestpdj.iestpdjpagos.dao.EstudianteDAO;
 import com.iestpdj.iestpdjpagos.model.Estudiante;
+import com.iestpdj.iestpdjpagos.model.TipoPersona;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class EstudianteFormController {
+    @FXML
+    private ComboBox<TipoPersona> comboTipoPersona;
     public TextField textDni;
     public TextField textNombre;
     public TextField textApellidoPaterno;
@@ -19,7 +19,8 @@ public class EstudianteFormController {
     public TextField textTelefono;
     @FXML
     private RadioButton rbActivo;
-
+    @FXML
+    private ToggleGroup groupActivo;
     @FXML
     private RadioButton rbInactivo;
 
@@ -32,10 +33,13 @@ public class EstudianteFormController {
         ToggleGroup group = new ToggleGroup();
         rbActivo.setToggleGroup(group);
         rbInactivo.setToggleGroup(group);
+        comboTipoPersona.getItems().addAll(TipoPersona.values());
+        comboTipoPersona.getSelectionModel().selectFirst();
     }
 
     public void  setEstudiante(Estudiante alumno){
         this.alumno = alumno;
+
         if (alumno.getId() != null) {
             textDni.setText(alumno.getDni());
             textNombre.setText(alumno.getNombre());
@@ -45,6 +49,12 @@ public class EstudianteFormController {
             textEmail.setText(alumno.getEmail());
             textTelefono.setText(alumno.getTelefono());
             rbActivo.setSelected(alumno.isActivo());
+            rbInactivo.setSelected(!alumno.isActivo());
+
+            // ✔ seleccionar el tipo persona correctamente
+            comboTipoPersona.getSelectionModel().select(
+                    TipoPersona.valueOf(alumno.getTipo_persona().trim().toUpperCase())
+            );
         }
     }
 
@@ -59,12 +69,13 @@ public class EstudianteFormController {
         String telefono = textTelefono.getText().trim();
 
         if (dni.isEmpty() || nombre.isEmpty() || apellidoParterno.isEmpty() || apellidoMaterno.isEmpty()) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Validacion", "DNI, Nombre, Apellids, no pueden ser vacios");
+            mostrarAlerta(Alert.AlertType.WARNING, "Validacion", "DNI, Nombre, Apellidos no pueden ser vacíos");
             return;
         }
 
         if (dni.length() != 8){
-            mostrarAlerta(Alert.AlertType.WARNING, "Validacion", "El DNI debe tener 8 digito");
+            mostrarAlerta(Alert.AlertType.WARNING, "Validacion", "El DNI debe tener 8 dígitos");
+            return;
         }
 
         alumno.setDni(dni);
@@ -76,13 +87,18 @@ public class EstudianteFormController {
         alumno.setTelefono(telefono);
         alumno.setActivo(rbActivo.isSelected());
 
+        // ✔ GUARDAR TIPO PERSONA
+        if (comboTipoPersona.getValue() != null) {
+            alumno.setTipo_persona(comboTipoPersona.getValue().name());
+        }
+
         try {
             if (alumno.getId() != null && alumno.getId() > 0) {
                 dao.ActualizarAlumno(alumno);
-                mostrarAlerta(Alert.AlertType.INFORMATION, "Actualizado", "Estudiante Actualizado");
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Actualizado", "Estudiante actualizado");
             } else {
                 dao.CreateAlumno(alumno);
-                mostrarAlerta(Alert.AlertType.INFORMATION, "Guardado", "Estudiante Creado");
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Guardado", "Estudiante creado");
             }
             saved = true;
             cerrarVentana();

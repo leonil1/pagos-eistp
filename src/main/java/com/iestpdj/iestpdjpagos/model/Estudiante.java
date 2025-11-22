@@ -13,6 +13,7 @@ public class Estudiante {
     private String email;
     private String telefono;
     private boolean activo;
+    private String tipo_persona;
     private LocalDateTime fecha_creacion;
     private LocalDateTime fecha_modificacion;
     private String nombreCompleto;
@@ -22,7 +23,7 @@ public class Estudiante {
     }
 
     public Estudiante(String dni, String nombre, String apellido_paterno, String apellido_materno,
-                      String direccion, String email, String telefono, boolean activo,
+                      String direccion, String email, String telefono, boolean activo, String tipo_persona,
                       LocalDateTime fecha_creacion, LocalDateTime fecha_modificacion) {
         this.dni = dni;
         this.nombre = nombre;
@@ -32,12 +33,13 @@ public class Estudiante {
         this.email = email;
         this.telefono = telefono;
         this.activo = activo;
+        this.tipo_persona = tipo_persona;
         this.fecha_creacion = fecha_creacion;
         this.fecha_modificacion = fecha_modificacion;
     }
 
     public Estudiante(long id, String dni, String nombre, String apellidoPaterno, String apellidoMaterno, String email,
-                      String direccion, String telefono, boolean activo) {
+                      String direccion, String telefono, boolean activo, String tipo_persona) {
         this.id = id;
         this.dni = dni;
         this.nombre = nombre;
@@ -47,6 +49,7 @@ public class Estudiante {
         this.email = email;
         this.telefono = telefono;
         this.activo = activo;
+        this.tipo_persona = tipo_persona;
     }
 
     public String getNombreCompleto() {
@@ -139,5 +142,13 @@ public class Estudiante {
 
     public void setFecha_modificacion(LocalDateTime fecha_modificacion) {
         this.fecha_modificacion = fecha_modificacion;
+    }
+
+    public String getTipo_persona() {
+        return tipo_persona;
+    }
+
+    public void setTipo_persona(String tipo_persona) {
+        this.tipo_persona = tipo_persona;
     }
 }

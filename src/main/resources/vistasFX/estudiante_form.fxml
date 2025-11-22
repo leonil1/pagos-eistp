@@ -5,83 +5,107 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.12"
+<VBox xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.iestpdj.iestpdjpagos.controller.EstudianteFormController"
-      spacing="20" alignment="CENTER"
-      style="-fx-background-color: #f4f6f8; -fx-padding: 25;">
+      spacing="25" alignment="TOP_CENTER"
+      style="-fx-background-color: #eef1f4; -fx-padding: 35;">
 
-    <!-- Título -->
+    <!-- TÍTULO -->
     <Label text="Registro de Estudiante"
-           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+           style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
 
-    <!-- Formulario -->
-    <GridPane hgap="10" vgap="12"
-              style="-fx-background-color: white;
-                     -fx-padding: 25;
-                     -fx-border-radius: 10;
-                     -fx-background-radius: 10;
-                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);">
+    <!-- TARJETA DE FORMULARIO -->
+    <VBox spacing="18"
+          style="-fx-background-color: white;
+                 -fx-padding: 30;
+                 -fx-max-width: 620;
+                 -fx-border-radius: 12;
+                 -fx-background-radius: 12;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 3);">
 
-        <columnConstraints>
-            <ColumnConstraints halignment="RIGHT" minWidth="130"/>
-            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS"/>
-        </columnConstraints>
+        <!-- SECCIÓN DATOS PERSONALES -->
+        <Label text="Datos del Estudiante"
+               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #34495e;" />
 
-        <Label text="DNI:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="textDni" promptText="Ingrese DNI"
-                   GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Separator/>
 
-        <Label text="Nombre:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="textNombre" promptText="Ingrese nombre completo"
-                   GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <GridPane hgap="18" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="160"/>
+                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS"/>
+            </columnConstraints>
 
-        <Label text="Apellido Paterno:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="textApellidoPaterno" promptText="Ingrese apellido paterno"
-                   GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <!-- Tipo persona -->
+            <Label text="Tipo Persona:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="comboTipoPersona" prefWidth="250"
+                      GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-        <Label text="Apellido Materno:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <TextField fx:id="textApellidoMaterno" promptText="Ingrese apellido materno"
-                   GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            <!-- DNI -->
+            <Label text="DNI:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="textDni" promptText="Ingrese DNI"
+                       GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-        <Label text="Dirección:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-        <TextField fx:id="textDireccion" promptText="Ingrese dirección"
-                   GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            <!-- Nombre -->
+            <Label text="Nombre:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="textNombre" promptText="Ingrese nombre completo"
+                       GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-        <Label text="Email:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-        <TextField fx:id="textEmail" promptText="Ingrese correo electrónico"
-                   GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+            <!-- Apellido paterno -->
+            <Label text="Apellido Paterno:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="textApellidoPaterno" promptText="Ingrese apellido paterno"
+                       GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-        <Label text="Teléfono:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-        <TextField fx:id="textTelefono" promptText="Ingrese teléfono"
-                   GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+            <!-- Apellido materno -->
+            <Label text="Apellido Materno:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <TextField fx:id="textApellidoMaterno" promptText="Ingrese apellido materno"
+                       GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
-        <Label text="Activo:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-        <HBox spacing="10" alignment="CENTER_LEFT"
-              GridPane.rowIndex="7" GridPane.columnIndex="1">
-            <RadioButton fx:id="rbActivo" text="Sí" />
-            <RadioButton fx:id="rbInactivo" text="No" />
-        </HBox>
+            <!-- Dirección -->
+            <Label text="Dirección:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <TextField fx:id="textDireccion" promptText="Ingrese dirección"
+                       GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
-    </GridPane>
+            <!-- Email -->
+            <Label text="Email:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <TextField fx:id="textEmail" promptText="ejemplo@correo.com"
+                       GridPane.rowIndex="6" GridPane.columnIndex="1"/>
 
-    <!-- Botones -->
-    <HBox alignment="CENTER_RIGHT" spacing="12">
+            <!-- Teléfono -->
+            <Label text="Teléfono:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+            <TextField fx:id="textTelefono" promptText="Ingrese teléfono"
+                       GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+            <!-- Activo -->
+            <Label text="Activo:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+
+            <HBox spacing="20" alignment="CENTER_LEFT"
+                  GridPane.rowIndex="8" GridPane.columnIndex="1">
+
+                <RadioButton fx:id="rbActivo" text="Sí" toggleGroup="$groupActivo"/>
+                <RadioButton fx:id="rbInactivo" text="No" toggleGroup="$groupActivo"/>
+
+            </HBox>
+
+
+        </GridPane>
+
+    </VBox>
+
+    <!-- BOTONES -->
+    <HBox alignment="CENTER_RIGHT" spacing="15"
+          style="-fx-max-width: 620;">
         <Button text="Cancelar"
                 onAction="#cancelar"
-                style="-fx-background-color: #e74c3c;
-                       -fx-text-fill: white;
-                       -fx-font-weight: bold;
-                       -fx-background-radius: 8;
-                       -fx-cursor: hand;
-                       -fx-padding: 8 20;"/>
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white;
+                       -fx-font-weight: bold; -fx-background-radius: 8;
+                       -fx-cursor: hand; -fx-padding: 10 25;"/>
+
         <Button text="Guardar"
                 onAction="#guardar"
-                style="-fx-background-color: #2ecc71;
-                       -fx-text-fill: white;
-                       -fx-font-weight: bold;
-                       -fx-background-radius: 8;
-                       -fx-cursor: hand;
-                       -fx-padding: 8 20;"/>
+                style="-fx-background-color: #2ecc71; -fx-text-fill: white;
+                       -fx-font-weight: bold; -fx-background-radius: 8;
+                       -fx-cursor: hand; -fx-padding: 10 25;"/>
     </HBox>
+
 </VBox>

@@ -19,6 +19,7 @@ CREATE TABLE usuarios (
 CREATE TABLE estudiante (
         id INT AUTO_INCREMENT PRIMARY KEY,
         dni VARCHAR(8) NOT NULL UNIQUE,
+        tipo_persona VARCHAR(20) NOT NULL,
         nombre VARCHAR(50) NOT NULL,
         apellido_paterno VARCHAR(50) NOT NULL,
         apellido_materno VARCHAR(50) NOT NULL,

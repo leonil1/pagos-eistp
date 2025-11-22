@@ -49,6 +49,7 @@
 
             <columns>
                 <TableColumn fx:id="colId" prefWidth="60" text="ID" />
+                <TableColumn fx:id="colTipoPersona" prefWidth="100" text="Tipo Persona" />
                 <TableColumn fx:id="colDni" prefWidth="100" text="DNI" />
                 <TableColumn fx:id="colNombre" prefWidth="160" text="Nombres" />
                 <TableColumn fx:id="colApellidoPaterno" prefWidth="120" text="Apellido Paterno" />

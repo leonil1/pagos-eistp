@@ -29,6 +29,8 @@ public class EstudianteController implements Initializable {
     @FXML
     private TableColumn<Estudiante, Integer> colId;
     @FXML
+    private TableColumn<Estudiante, String> colTipoPersona;
+    @FXML
     private TableColumn<Estudiante, Integer> colDni;
     @FXML
     private TableColumn<Estudiante, String> colNombreCompleto;
@@ -59,17 +61,26 @@ public class EstudianteController implements Initializable {
     @FXML
     private void buscarEstudiante() {
         String filtro = txtBuscar.getText().trim().toLowerCase();
+
         if (filtro.isEmpty()) {
-            tableAlumnos.setItems(lista); // restablece
-            mostrarAlerta(Alert.AlertType.INFORMATION, "Informacion", "Alumno no encontrado");
-            return ;
+            tableAlumnos.setItems(lista);
+            return;
         }
 
-        ObservableList<Estudiante> filtrados = lista.filtered(
-                e -> e.getNombre().toLowerCase().contains(filtro)
-                        || e.getDni().toLowerCase().contains(filtro)
+        ObservableList<Estudiante> filtrados = lista.filtered(e ->
+                containsIgnoreCase(e.getNombre(), filtro) ||
+                        containsIgnoreCase(e.getDni(), filtro) ||
+                        containsIgnoreCase(e.getApellido_paterno(), filtro) ||
+                        containsIgnoreCase(e.getApellido_materno(), filtro) ||
+                        containsIgnoreCase(e.getTipo_persona(), filtro)
         );
+
         tableAlumnos.setItems(filtrados);
+    }
+
+    private boolean containsIgnoreCase(String field, String filtro) {
+        if (field == null || filtro == null) return false;
+        return field.toLowerCase().contains(filtro.toLowerCase());
     }
 
     @FXML
@@ -84,6 +95,7 @@ public class EstudianteController implements Initializable {
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         colActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));
+        colTipoPersona.setCellValueFactory(new PropertyValueFactory<>("tipo_persona"));
 
         colActivo.setCellFactory(column -> new TableCell<Estudiante, Boolean>() {
             @Override
